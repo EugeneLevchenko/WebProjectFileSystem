@@ -11,6 +11,6 @@ public class EmbeddedJettyMain {
         handler.addServlet(GlobalStatisticServlet.class,"/gs");
         handler.addServlet(LocalStatisticServlet.class,"/ls");
         handler.addServlet(LocalStatisticOfFileServlet.class,"/lsf");
-        server.start();
+        server.start();//
     }
 }
