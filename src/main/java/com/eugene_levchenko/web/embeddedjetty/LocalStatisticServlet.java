@@ -19,7 +19,7 @@ public class LocalStatisticServlet extends HttpServlet {
         resp.getWriter().println("<p><b><h1>Локальная статистика файлов</h1></b></p>");
         resp.getWriter().println("<p><a href=\"http://localhost:8080/main\">Главная</a></p>");
 
-
+//
         try {
             renderTable(resp,setConnection());
         } catch (SQLException e) {
