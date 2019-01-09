@@ -7,25 +7,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class LocalStatisticServlet extends HttpServlet {
-    final static String URL = "jdbc:mysql://localhost:3306/mydbtest";
+    final static String URL = "jdbc:mysql://localhost:3306/webprojectfilesystemdb";
     final static String USERNAME = "root";
     final static String PASSWORD = "root";
+
+    ArrayList<LocalStatEntity> list=new ArrayList<LocalStatEntity>();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setStatus(HttpStatus.OK_200);
         resp.setCharacterEncoding("KOI8-R");
         resp.getWriter().println("<p><b><h1>Локальная статистика файлов</h1></b></p>");
         resp.getWriter().println("<p><a href=\"http://localhost:8080/main\">Главная</a></p>");
-
 //
         try {
             renderTable(resp,setConnection());
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
     public String createTable(ResultSet res) throws SQLException {

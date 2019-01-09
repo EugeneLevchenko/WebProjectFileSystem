@@ -11,7 +11,7 @@ import java.sql.*;
 
 public class GlobalStatisticServlet extends HttpServlet {
 
-    final static String URL = "jdbc:mysql://localhost:3306/mydbtest";
+    final static String URL = "jdbc:mysql://localhost:3306/webprojectfilesystemdb";
     final static String USERNAME = "root";
     final static String PASSWORD = "root";
 
