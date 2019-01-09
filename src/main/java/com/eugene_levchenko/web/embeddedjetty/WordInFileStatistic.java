@@ -9,19 +9,24 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class LocalStatisticServlet extends HttpServlet {
+public class WordInFileStatistic extends HttpServlet {
+
     final static String URL = "jdbc:mysql://localhost:3306/webprojectfilesystemdb";
     final static String USERNAME = "root";
     final static String PASSWORD = "root";
+    String nameOfParam="word";
+    String paramValue="";
 
-    ArrayList<LocalStatEntity> list=new ArrayList<LocalStatEntity>();
+    ArrayList<WordInFileStatEntity> list=new ArrayList<WordInFileStatEntity>();
+
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
+    {
         resp.setStatus(HttpStatus.OK_200);
         resp.setCharacterEncoding("KOI8-R");
-        resp.getWriter().println("<p><b><h1>Локальная статистика файлов</h1></b></p>");
+        paramValue = req.getParameter(nameOfParam);
+        resp.getWriter().println("<p><b><h1>Статистика слова в файле</h1></b></p>");
         resp.getWriter().println("<p><a href=\"http://localhost:8080/main\">Главная</a></p>");
-//
         try {
             renderTable(resp,setConnection());
         } catch (SQLException e) {
@@ -33,7 +38,7 @@ public class LocalStatisticServlet extends HttpServlet {
         String table="";
         for (int i=0;i<list.size();i++)
         {
-            table+="<tr> <td>"+list.get(i).id+"</td> <td><a href=\"http://localhost:8080/lsf?id="+list.get(i).id+"\">"+list.get(i).name+"</a></td>";
+            table+="<tr> <td>"+list.get(i).nameOfFile+"</td> <td>"+list.get(i).value+"</td>";
         }
         return table;
     }
@@ -43,15 +48,19 @@ public class LocalStatisticServlet extends HttpServlet {
         ResultSet resultSet = null;
         try {
             Connection connection = DriverManager.getConnection(URL,USERNAME,PASSWORD);
-            String query="select * from fullnametable order by 1;";
+            String query="SELECT fullnametable.fullfilename, localstatistic.value\n" +
+                    "FROM localstatistic\n" +
+                    "INNER JOIN fullnametable ON localstatistic.file_id = fullnametable.id \n" +
+                    "where localstatistic.word='"+paramValue+"' order by 1;;";
+
             Statement st=connection.createStatement();
             ResultSet res=st.executeQuery(query);
             list.clear();
             while (res.next())
             {
-                list.add(new LocalStatEntity(res.getInt(1),res.getString(2)));
+                  list.add(new WordInFileStatEntity(res.getString(1),res.getInt(2)));
             }
-
+//
             resultSet=res;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -62,10 +71,10 @@ public class LocalStatisticServlet extends HttpServlet {
     public void renderTable( HttpServletResponse resp,ResultSet res) throws IOException, SQLException {
         resp.getWriter().println(
                 " <table border=\"1\">\n" +
-                        "   <caption>Список файлов в директории</caption>\n" +
+                        "   <caption>Глобальная статистика слов в директории</caption>\n" +
                         "   <tr>\n" +
-                        "    <th>id</th>\n" +
-                        "    <th>Имя файла</th>\n" +
+                        "    <th>Слово</th>\n" +
+                        "    <th>Значение</th>\n" +
                         "   </tr>\n" +
                         createTable(res)+
                         "  </table>");

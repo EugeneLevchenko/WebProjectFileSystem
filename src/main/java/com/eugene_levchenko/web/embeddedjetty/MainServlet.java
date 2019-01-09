@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.http.HttpStatus;
+
 public class MainServlet extends HttpServlet {
 
     @Override
@@ -30,7 +31,7 @@ public class MainServlet extends HttpServlet {
                 " </head>\n" +
                 " <body>\n" +
                 "  <ul class=\"hr\">\n" +
-                "<li> <a href=\"http://localhost:8080/gs\">Глобальная статистика</a> </li> <li> <a href=\"http://localhost:8080/ls\">Локальная статистика файлов</a> </li>"+
+                "<li> <a href=\"http://localhost:8080/gs\">Глобальная статистика</a> </li> <li> <a href=\"http://localhost:8080/ls\">Локальная статистика файлов</a> </li> "+
                 "  </ul>");
     }
 }

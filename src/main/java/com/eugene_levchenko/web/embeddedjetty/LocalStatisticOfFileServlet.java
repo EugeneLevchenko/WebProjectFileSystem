@@ -1,19 +1,24 @@
 package com.eugene_levchenko.web.embeddedjetty;
 
 import org.eclipse.jetty.http.HttpStatus;
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 
 public class LocalStatisticOfFileServlet extends HttpServlet {
 
     final static String URL = "jdbc:mysql://localhost:3306/webprojectfilesystemdb";
     final static String USERNAME = "root";
     final static String PASSWORD = "root";
-int id=0;
+
+    ArrayList<LocalStatOfFileEntity> list=new ArrayList<LocalStatOfFileEntity>();
+
+    String fileName="";
+    String nameOfParam="id";
+    String paramValue="";
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
@@ -25,7 +30,69 @@ int id=0;
         resp.getWriter().println("<p><a href=\"http://localhost:8080/main\">Главная</a></p>");
         resp.getWriter().println("<p><a href=\"http://localhost:8080/ls\">Локальная статистика файлов</a></p>");
 
+        paramValue = req.getParameter(nameOfParam);
+        System.out.println(paramValue);
+        try {
+            renderTable(resp,setConnection());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
+    public ResultSet setConnection()
+    {
+        ResultSet resultSet = null;
+        try {
+            Connection connection = DriverManager.getConnection(URL,USERNAME,PASSWORD);
+            String queryGetFileName="SELECT fullfilename FROM webprojectfilesystemdb.fullnametable where id="+paramValue+";";
+            String query="SELECT word,value FROM webprojectfilesystemdb.localstatistic where file_id="+paramValue+" order by 1;";
+            Statement st=connection.createStatement();
+            ResultSet res=st.executeQuery(query);
 
+
+
+
+            while (res.next())
+            {
+                list.add(new LocalStatOfFileEntity(res.getString(1),res.getInt(2)));
+            }
+            Statement st2=connection.createStatement();
+            ResultSet res2=st2.executeQuery(queryGetFileName);
+            while (res2.next())
+            {
+                fileName=res2.getString(1);
+            }
+            resultSet=res;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return resultSet;
+    }
+
+    public String createTable(ResultSet res) throws SQLException {
+        String table="";
+
+        for (int i=0;i<list.size();i++)
+        {
+            table+="<tr> <td>"+list.get(i).word+"</td> <td>"+list.get(i).value+"</td>";
+        }
+
+        System.out.println(list);
+        return table;
+    }
+
+    public void renderTable( HttpServletResponse resp,ResultSet res) throws IOException, SQLException {
+        resp.getWriter().println(
+                " <table border=\"1\">\n" +
+                        "   <caption>Статистика слов в файле: "+fileName+"</caption>\n" +
+                        "   <tr>\n" +
+                        "    <th>Слово</th>\n" +
+                        "    <th>Значение</th>\n" +
+                        "   </tr>\n" +
+                        createTable(res)+
+
+                        "  </table>");
+
+    }
 }

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class GlobalStatisticServlet extends HttpServlet {
 
@@ -15,7 +16,8 @@ public class GlobalStatisticServlet extends HttpServlet {
     final static String USERNAME = "root";
     final static String PASSWORD = "root";
 
-    String var1="var1";
+    ArrayList<GlobalStatEntity> list=new ArrayList<GlobalStatEntity>();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws  IOException
     {
@@ -32,9 +34,10 @@ public class GlobalStatisticServlet extends HttpServlet {
 
     public String createTable(ResultSet res) throws SQLException {
         String table="";
-        while (res.next())
+        for (int i=0;i<list.size();i++)
         {
-            table+="<tr> <td>"+res.getString(1)+"</td> <td>"+res.getInt(2)+"</td>";
+          //  table+="<tr> <td>"+list.get(i).word+"</td> <td>"+list.get(i).value+"</td>";
+            table+="<tr> <td>"+"<a href=\"http://localhost:8080/wsf?word="+list.get(i).word+"\">"+list.get(i).word+"</a>"+"</td> <td>"+list.get(i).value+"</td>";//
         }
         return table;
     }
@@ -47,6 +50,12 @@ public class GlobalStatisticServlet extends HttpServlet {
             String query="select * from filestatistic order by 1;";
             Statement st=connection.createStatement();
             ResultSet res=st.executeQuery(query);
+list.clear();
+            while (res.next())
+            {
+                list.add(new GlobalStatEntity(res.getString(1),res.getInt(2)));
+            }
+
             resultSet=res;
         } catch (SQLException e) {
             e.printStackTrace();
