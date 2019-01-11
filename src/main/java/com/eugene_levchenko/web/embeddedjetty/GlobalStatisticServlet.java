@@ -25,6 +25,10 @@ public class GlobalStatisticServlet extends HttpServlet {
         resp.setCharacterEncoding("KOI8-R");
         resp.getWriter().println("<p><b><h1>Глобальная статистика</h1></b></p>");
         resp.getWriter().println("<p><a href=\"http://localhost:8080/main\">Главная</a></p>");
+        resp.getWriter().println("<p><a href=\"http://localhost:8080/ls\">Локальная статистика файлов</a></p>");
+
+
+
         try {
             renderTable(resp,setConnection());
         } catch (SQLException e) {
@@ -36,9 +40,9 @@ public class GlobalStatisticServlet extends HttpServlet {
         String table="";
         for (int i=0;i<list.size();i++)
         {
-          //  table+="<tr> <td>"+list.get(i).word+"</td> <td>"+list.get(i).value+"</td>";
             table+="<tr> <td>"+"<a href=\"http://localhost:8080/wsf?word="+list.get(i).word+"\">"+list.get(i).word+"</a>"+"</td> <td>"+list.get(i).value+"</td>";//
         }
+
         return table;
     }
 
@@ -50,12 +54,12 @@ public class GlobalStatisticServlet extends HttpServlet {
             String query="select * from filestatistic order by 1;";
             Statement st=connection.createStatement();
             ResultSet res=st.executeQuery(query);
-list.clear();
+            list.clear();
+            System.out.println("after clear: "+list);
             while (res.next())
             {
                 list.add(new GlobalStatEntity(res.getString(1),res.getInt(2)));
             }
-
             resultSet=res;
         } catch (SQLException e) {
             e.printStackTrace();

@@ -1,7 +1,6 @@
 package com.eugene_levchenko.web.embeddedjetty;
 
 import org.eclipse.jetty.http.HttpStatus;
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,14 +26,13 @@ public class WordInFileStatistic extends HttpServlet {
         paramValue = req.getParameter(nameOfParam);
         resp.getWriter().println("<p><b><h1>Статистика слова в файле</h1></b></p>");
         resp.getWriter().println("<p><a href=\"http://localhost:8080/main\">Главная</a></p>");
-        try {
-            renderTable(resp,setConnection());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        resp.getWriter().println("<p><a href=\"http://localhost:8080/ls\">Локальная статистика файлов</a></p>");
+
+            setConnection();
+            renderTable(resp);
     }
 
-    public String createTable(ResultSet res) throws SQLException {
+    public String createTable() {
         String table="";
         for (int i=0;i<list.size();i++)
         {
@@ -51,7 +49,7 @@ public class WordInFileStatistic extends HttpServlet {
             String query="SELECT fullnametable.fullfilename, localstatistic.value\n" +
                     "FROM localstatistic\n" +
                     "INNER JOIN fullnametable ON localstatistic.file_id = fullnametable.id \n" +
-                    "where localstatistic.word='"+paramValue+"' order by 1;;";
+                    "where localstatistic.word='"+paramValue+"' order by 1;";
 
             Statement st=connection.createStatement();
             ResultSet res=st.executeQuery(query);
@@ -60,7 +58,7 @@ public class WordInFileStatistic extends HttpServlet {
             {
                   list.add(new WordInFileStatEntity(res.getString(1),res.getInt(2)));
             }
-//
+
             resultSet=res;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -68,15 +66,15 @@ public class WordInFileStatistic extends HttpServlet {
         return resultSet;
     }
 
-    public void renderTable( HttpServletResponse resp,ResultSet res) throws IOException, SQLException {
+    public void renderTable( HttpServletResponse resp) throws IOException {
         resp.getWriter().println(
                 " <table border=\"1\">\n" +
-                        "   <caption>Глобальная статистика слов в директории</caption>\n" +
+                        "   <caption>Глобальная статистика слова: <h1 style=\"margin: 0;\"><b>"+paramValue+"</b></h1> в директории</caption>\n" +
                         "   <tr>\n" +
-                        "    <th>Слово</th>\n" +
+                        "    <th>Имя файла</th>\n" +
                         "    <th>Значение</th>\n" +
                         "   </tr>\n" +
-                        createTable(res)+
+                        createTable()+
                         "  </table>");
     }
 }

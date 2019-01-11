@@ -29,7 +29,7 @@ public class LocalStatisticOfFileServlet extends HttpServlet {
         resp.getWriter().println("<p><b><h1>Локальная статистика слов по файлу</h1></b></p>");
         resp.getWriter().println("<p><a href=\"http://localhost:8080/main\">Главная</a></p>");
         resp.getWriter().println("<p><a href=\"http://localhost:8080/ls\">Локальная статистика файлов</a></p>");
-
+        resp.getWriter().println("<p><a href=\"http://localhost:8080/gs\">Глобальная статистика</a></p>");
         paramValue = req.getParameter(nameOfParam);
         System.out.println(paramValue);
         try {
@@ -49,9 +49,7 @@ public class LocalStatisticOfFileServlet extends HttpServlet {
             Statement st=connection.createStatement();
             ResultSet res=st.executeQuery(query);
 
-
-
-
+            list.clear();
             while (res.next())
             {
                 list.add(new LocalStatOfFileEntity(res.getString(1),res.getInt(2)));
@@ -74,11 +72,11 @@ public class LocalStatisticOfFileServlet extends HttpServlet {
         String table="";
 
         for (int i=0;i<list.size();i++)
-        {
-            table+="<tr> <td>"+list.get(i).word+"</td> <td>"+list.get(i).value+"</td>";
-        }
+         {
+      table+="<tr> <td>"+"<a href=\"http://localhost:8080/wsf?word="+list.get(i).word+"\">"+list.get(i).word+"</a>"+"</td> <td>"+list.get(i).value+"</td>";//
+            //table+="<tr> <td>"+list.get(i).word+"</td> <td>"+list.get(i).value+"</td>";
+         }
 
-        System.out.println(list);
         return table;
     }
 
