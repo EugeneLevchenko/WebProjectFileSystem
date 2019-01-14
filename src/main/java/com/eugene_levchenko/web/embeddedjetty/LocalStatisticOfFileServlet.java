@@ -1,49 +1,39 @@
 package com.eugene_levchenko.web.embeddedjetty;
 
 import org.eclipse.jetty.http.HttpStatus;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class LocalStatisticOfFileServlet extends HttpServlet {
-
-    final static String URL = "jdbc:mysql://localhost:3306/webprojectfilesystemdb";
-    final static String USERNAME = "root";
-    final static String PASSWORD = "root";
+public class LocalStatisticOfFileServlet extends MyServlet {
 
     ArrayList<LocalStatOfFileEntity> list=new ArrayList<LocalStatOfFileEntity>();
 
     String fileName="";
     String nameOfParam="id";
     String paramValue="";
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
         resp.setStatus(HttpStatus.OK_200);
         resp.setCharacterEncoding("KOI8-R");
-        resp.setStatus(HttpStatus.OK_200);
-        resp.setCharacterEncoding("KOI8-R");
+
         resp.getWriter().println("<p><b><h1>Локальная статистика слов по файлу</h1></b></p>");
         resp.getWriter().println("<p><a href=\"http://localhost:8080/main\">Главная</a></p>");
         resp.getWriter().println("<p><a href=\"http://localhost:8080/ls\">Локальная статистика файлов</a></p>");
         resp.getWriter().println("<p><a href=\"http://localhost:8080/gs\">Глобальная статистика</a></p>");
         paramValue = req.getParameter(nameOfParam);
-        System.out.println(paramValue);
-        try {
-            renderTable(resp,setConnection());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        setConnection();
+        renderTable(resp);
     }
 
     public ResultSet setConnection()
     {
         ResultSet resultSet = null;
         try {
-            Connection connection = DriverManager.getConnection(URL,USERNAME,PASSWORD);
             String queryGetFileName="SELECT fullfilename FROM webprojectfilesystemdb.fullnametable where id="+paramValue+";";
             String query="SELECT word,value FROM webprojectfilesystemdb.localstatistic where file_id="+paramValue+" order by 1;";
             Statement st=connection.createStatement();
@@ -68,19 +58,21 @@ public class LocalStatisticOfFileServlet extends HttpServlet {
         return resultSet;
     }
 
-    public String createTable(ResultSet res) throws SQLException {
+    public String createTable()  {
         String table="";
 
         for (int i=0;i<list.size();i++)
-         {
-      table+="<tr> <td>"+"<a href=\"http://localhost:8080/wsf?word="+list.get(i).word+"\">"+list.get(i).word+"</a>"+"</td> <td>"+list.get(i).value+"</td>";//
-            //table+="<tr> <td>"+list.get(i).word+"</td> <td>"+list.get(i).value+"</td>";
-         }
+        {
+                     table+="<tr> <td>"+"<a href=\"http://localhost:8080/wsf?word="
+                    +list.get(i).word+"\">"+
+                    list.get(i).word+"</a>"+"</td> <td>"
+                    +list.get(i).value+"</td>";//
+        }
 
         return table;
     }
 
-    public void renderTable( HttpServletResponse resp,ResultSet res) throws IOException, SQLException {
+    public void renderTable( HttpServletResponse resp) throws IOException {
         resp.getWriter().println(
                 " <table border=\"1\">\n" +
                         "   <caption>Статистика слов в файле: "+fileName+"</caption>\n" +
@@ -88,9 +80,7 @@ public class LocalStatisticOfFileServlet extends HttpServlet {
                         "    <th>Слово</th>\n" +
                         "    <th>Значение</th>\n" +
                         "   </tr>\n" +
-                        createTable(res)+
-
+                        createTable()+
                         "  </table>");
-
     }
 }

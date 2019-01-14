@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.http.HttpStatus;
 
-public class MainServlet extends HttpServlet {
+public class MainServlet extends MyServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
@@ -14,8 +14,7 @@ public class MainServlet extends HttpServlet {
         resp.setStatus(HttpStatus.OK_200);
         resp.setCharacterEncoding("KOI8-R");
         resp.getWriter().println("<p><b><h1>Главная</h1></b></p>");
-       // resp.getWriter().println("<a href=\"http://localhost:8080/gs\">Глобальная статистика</a>");
-      //  resp.getWriter().println("<a href=\"http://localhost:8080/gs\">Локальная статистика</a>");
+
         resp.getWriter().println(" <style>\n" +
                 "   ul.hr {\n" +
                 "    margin: 20; \n" +

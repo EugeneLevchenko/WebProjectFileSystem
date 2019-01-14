@@ -1,20 +1,13 @@
 package com.eugene_levchenko.web.embeddedjetty;
 
 import org.eclipse.jetty.http.HttpStatus;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class GlobalStatisticServlet extends HttpServlet {
-
-    final static String URL = "jdbc:mysql://localhost:3306/webprojectfilesystemdb";
-    final static String USERNAME = "root";
-    final static String PASSWORD = "root";
+public class GlobalStatisticServlet extends MyServlet {
 
     ArrayList<GlobalStatEntity> list=new ArrayList<GlobalStatEntity>();
 
@@ -26,21 +19,18 @@ public class GlobalStatisticServlet extends HttpServlet {
         resp.getWriter().println("<p><b><h1>Глобальная статистика</h1></b></p>");
         resp.getWriter().println("<p><a href=\"http://localhost:8080/main\">Главная</a></p>");
         resp.getWriter().println("<p><a href=\"http://localhost:8080/ls\">Локальная статистика файлов</a></p>");
-
-
-
-        try {
-            renderTable(resp,setConnection());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        setConnection();
+        renderTable(resp);
     }
 
-    public String createTable(ResultSet res) throws SQLException {
+    public String createTable() {
         String table="";
         for (int i=0;i<list.size();i++)
         {
-            table+="<tr> <td>"+"<a href=\"http://localhost:8080/wsf?word="+list.get(i).word+"\">"+list.get(i).word+"</a>"+"</td> <td>"+list.get(i).value+"</td>";//
+            table+="<tr> <td>"+"<a href=\"http://localhost:8080/wsf?word="
+                    +list.get(i).word+"\">"
+                    +list.get(i).word+"</a>"+"</td> <td>"
+                    +list.get(i).value+"</td>";//
         }
 
         return table;
@@ -50,7 +40,6 @@ public class GlobalStatisticServlet extends HttpServlet {
     {
         ResultSet resultSet = null;
         try {
-            Connection connection = DriverManager.getConnection(URL,USERNAME,PASSWORD);
             String query="select * from filestatistic order by 1;";
             Statement st=connection.createStatement();
             ResultSet res=st.executeQuery(query);
@@ -67,7 +56,7 @@ public class GlobalStatisticServlet extends HttpServlet {
         return resultSet;
     }
 
-    public void renderTable( HttpServletResponse resp,ResultSet res) throws IOException, SQLException {
+    public void renderTable( HttpServletResponse resp) throws IOException {
         resp.getWriter().println(
                 " <table border=\"1\">\n" +
                         "   <caption>Глобальная статистика слов в директории</caption>\n" +
@@ -75,7 +64,7 @@ public class GlobalStatisticServlet extends HttpServlet {
                         "    <th>Слово</th>\n" +
                         "    <th>Значение</th>\n" +
                         "   </tr>\n" +
-                        createTable(res)+
+                        createTable()+
                         "  </table>");
     }
 }

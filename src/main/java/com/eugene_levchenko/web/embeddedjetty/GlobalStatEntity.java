@@ -2,7 +2,6 @@ package com.eugene_levchenko.web.embeddedjetty;
 
 public class GlobalStatEntity {
 
-
     String word;
     int value;
 
