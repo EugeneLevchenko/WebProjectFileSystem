@@ -1,22 +1,19 @@
 package com.eugene_levchenko.web.embeddedjetty;
 
+import com.eugene_levchenko.web.embeddedjetty.Entities.WordInFileStatEntity;
 import org.eclipse.jetty.http.HttpStatus;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class WordInFileStatistic extends HttpServlet {
+public class WordInFileStatisticServlet extends MyServlet {
 
-    final static String URL = "jdbc:mysql://localhost:3306/webprojectfilesystemdb";
-    final static String USERNAME = "root";
-    final static String PASSWORD = "root";
-    String nameOfParam="word";
-    String paramValue="";
+   private String nameOfParam="word";
+   private String paramValue="";
 
-    ArrayList<WordInFileStatEntity> list=new ArrayList<WordInFileStatEntity>();
+   private ArrayList<WordInFileStatEntity> list=new ArrayList<WordInFileStatEntity>();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
@@ -27,6 +24,7 @@ public class WordInFileStatistic extends HttpServlet {
         resp.getWriter().println("<p><b><h1>Статистика слова в файле</h1></b></p>");
         resp.getWriter().println("<p><a href=\"http://localhost:8080/main\">Главная</a></p>");
         resp.getWriter().println("<p><a href=\"http://localhost:8080/ls\">Локальная статистика файлов</a></p>");
+        resp.getWriter().println("<p><a href=\"http://localhost:8080/gs\">Глобальная статистика</a></p>");
 
             setConnection();
             renderTable(resp);
@@ -36,7 +34,7 @@ public class WordInFileStatistic extends HttpServlet {
         String table="";
         for (int i=0;i<list.size();i++)
         {
-            table+="<tr> <td>"+list.get(i).nameOfFile+"</td> <td>"+list.get(i).value+"</td>";
+            table+="<tr> <td>"+list.get(i).getNameOfFile()+"</td> <td>"+list.get(i).getValue()+"</td>";
         }
         return table;
     }
@@ -54,6 +52,7 @@ public class WordInFileStatistic extends HttpServlet {
             Statement st=connection.createStatement();
             ResultSet res=st.executeQuery(query);
             list.clear();
+
             while (res.next())
             {
                   list.add(new WordInFileStatEntity(res.getString(1),res.getInt(2)));

@@ -1,9 +1,9 @@
-package com.eugene_levchenko.web.embeddedjetty;
+package com.eugene_levchenko.web.embeddedjetty.Entities;
 
 public class LocalStatOfFileEntity {
 
-    String word;
-    int value;
+   private String word;
+   private int value;
 
     public LocalStatOfFileEntity(String word, int value) {
         this.word = word;
@@ -16,5 +16,13 @@ public class LocalStatOfFileEntity {
                 "word='" + word + '\'' +
                 ", value=" + value +
                 '}';
+    }
+
+    public String getWord() {
+        return word;
+    }
+
+    public int getValue() {
+        return value;
     }
 }

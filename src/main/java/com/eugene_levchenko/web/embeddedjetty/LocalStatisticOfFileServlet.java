@@ -1,5 +1,6 @@
 package com.eugene_levchenko.web.embeddedjetty;
 
+import com.eugene_levchenko.web.embeddedjetty.Entities.LocalStatOfFileEntity;
 import org.eclipse.jetty.http.HttpStatus;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,11 +10,11 @@ import java.util.ArrayList;
 
 public class LocalStatisticOfFileServlet extends MyServlet {
 
-    ArrayList<LocalStatOfFileEntity> list=new ArrayList<LocalStatOfFileEntity>();
+   private ArrayList<LocalStatOfFileEntity> list=new ArrayList<LocalStatOfFileEntity>();
 
-    String fileName="";
-    String nameOfParam="id";
-    String paramValue="";
+   private String fileName="";
+   private String nameOfParam="id";
+   private String paramValue="";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
@@ -63,10 +64,10 @@ public class LocalStatisticOfFileServlet extends MyServlet {
 
         for (int i=0;i<list.size();i++)
         {
-                     table+="<tr> <td>"+"<a href=\"http://localhost:8080/wsf?word="
-                    +list.get(i).word+"\">"+
-                    list.get(i).word+"</a>"+"</td> <td>"
-                    +list.get(i).value+"</td>";//
+            table+="<tr> <td>"+"<a href=\"http://localhost:8080/wsf?word="
+                    +list.get(i).getWord()+"\">"
+                    +list.get(i).getWord()+"</a>"+"</td> <td>"
+                    +list.get(i).getValue()+"</td>";
         }
 
         return table;

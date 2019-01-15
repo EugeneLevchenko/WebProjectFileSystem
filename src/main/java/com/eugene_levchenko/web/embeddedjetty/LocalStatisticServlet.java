@@ -1,5 +1,6 @@
 package com.eugene_levchenko.web.embeddedjetty;
 
+import com.eugene_levchenko.web.embeddedjetty.Entities.LocalStatEntity;
 import org.eclipse.jetty.http.HttpStatus;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 
 public class LocalStatisticServlet extends MyServlet {
 
-    ArrayList<LocalStatEntity> list = new ArrayList<LocalStatEntity>();
+  private ArrayList<LocalStatEntity> list = new ArrayList<LocalStatEntity>();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -27,10 +28,9 @@ public class LocalStatisticServlet extends MyServlet {
         String table = "";
 
         for (int i = 0; i < list.size(); i++) {
-
-            table += "<tr> <td>" + list.get(i).id + "</td> <td><a href=\"http://localhost:8080/lsf?id=" +
-                    list.get(i).id + "\">" +
-                    list.get(i).name + "</a></td>";
+            table += "<tr> <td>" + list.get(i).getId() + "</td> <td><a href=\"http://localhost:8080/lsf?id=" +
+                    list.get(i).getId() + "\">" +
+                    list.get(i).getName() + "</a></td>";
         }
         return table;
     }
@@ -39,7 +39,7 @@ public class LocalStatisticServlet extends MyServlet {
         ResultSet resultSet = null;
         try {
 
-            String query = "select * from fullnametable order by 1;"; //
+            String query = "select * from fullnametable order by 1;";
             Statement st = connection.createStatement();
             ResultSet res = st.executeQuery(query);
             list.clear();
@@ -58,11 +58,11 @@ public class LocalStatisticServlet extends MyServlet {
         resp.getWriter().println(
                 " <table border=\"1\">\n" +
                         "   <caption>Список файлов в директории</caption>\n" +
-                        "   <tr>\n" +
-                        "    <th>id</th>\n" +
-                        "    <th>Имя файла</th>\n" +
-                        "   </tr>\n" +
-                        createTable() +
+                        "   <tr>\n"+
+                        "    <th>id</th>\n"+
+                        "    <th>Имя файла</th>\n"+
+                        "   </tr>\n"+
+                        createTable()+
                         "  </table>");
     }
 }

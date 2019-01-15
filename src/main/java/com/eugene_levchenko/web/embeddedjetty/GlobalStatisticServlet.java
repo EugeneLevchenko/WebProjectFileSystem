@@ -1,5 +1,6 @@
 package com.eugene_levchenko.web.embeddedjetty;
 
+import com.eugene_levchenko.web.embeddedjetty.Entities.GlobalStatEntity;
 import org.eclipse.jetty.http.HttpStatus;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 
 public class GlobalStatisticServlet extends MyServlet {
 
-    ArrayList<GlobalStatEntity> list=new ArrayList<GlobalStatEntity>();
+   private ArrayList<GlobalStatEntity> list=new ArrayList<GlobalStatEntity>();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws  IOException
@@ -28,9 +29,9 @@ public class GlobalStatisticServlet extends MyServlet {
         for (int i=0;i<list.size();i++)
         {
             table+="<tr> <td>"+"<a href=\"http://localhost:8080/wsf?word="
-                    +list.get(i).word+"\">"
-                    +list.get(i).word+"</a>"+"</td> <td>"
-                    +list.get(i).value+"</td>";//
+                    +list.get(i).getWord()+"\">"
+                    +list.get(i).getWord()+"</a>"+"</td> <td>"
+                    +list.get(i).getValue()+"</td>";//
         }
 
         return table;

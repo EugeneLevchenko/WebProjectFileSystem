@@ -1,8 +1,8 @@
-package com.eugene_levchenko.web.embeddedjetty;
+package com.eugene_levchenko.web.embeddedjetty.Entities;
 
 public class LocalStatEntity {
-    int id;
-    String name;
+   private int id;
+   private String name;
 
     public LocalStatEntity(int id, String name) {
         this.id = id;
@@ -16,5 +16,13 @@ public class LocalStatEntity {
                 "id=" + id +
                 ", nameOfFile='" + name + '\'' +
                 '}';
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
     }
 }
