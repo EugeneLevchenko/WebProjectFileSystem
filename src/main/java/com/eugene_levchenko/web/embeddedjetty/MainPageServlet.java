@@ -7,6 +7,8 @@ import org.eclipse.jetty.http.HttpStatus;
 
 public class MainPageServlet extends MyServlet {
 
+
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {

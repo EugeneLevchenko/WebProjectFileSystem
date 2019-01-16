@@ -2,11 +2,11 @@ package com.eugene_levchenko.web.embeddedjetty.Entities;
 
 public class LocalStatEntity {
    private int id;
-   private String name;
+   private String nameOfFile;
 
-    public LocalStatEntity(int id, String name) {
+    public LocalStatEntity(int id, String nameOfFile) {
         this.id = id;
-        this.name = name;
+        this.nameOfFile = nameOfFile;
     }
 
 
@@ -14,7 +14,7 @@ public class LocalStatEntity {
     public String toString() {
         return "LocalStatEntity{" +
                 "id=" + id +
-                ", nameOfFile='" + name + '\'' +
+                ", nameOfFile='" + nameOfFile + '\'' +
                 '}';
     }
 
@@ -22,7 +22,7 @@ public class LocalStatEntity {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getNameOfFile() {
+        return nameOfFile;
     }
 }

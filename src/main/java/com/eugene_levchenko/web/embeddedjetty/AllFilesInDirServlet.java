@@ -29,7 +29,7 @@ public class AllFilesInDirServlet extends MyServlet {
         for (int i = 0; i < list.size(); i++) {
             table += "<tr> <td>" + list.get(i).getId() + "</td> <td><a href=\"http://localhost:8080/lsf?id=" +
                     list.get(i).getId() + "\">" +
-                    list.get(i).getName() + "</a></td>";
+                    list.get(i).getNameOfFile() + "</a></td>";
         }
         return table;
     }

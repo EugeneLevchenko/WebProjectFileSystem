@@ -18,7 +18,7 @@ public class GlobalStatisticServlet extends MyServlet {
         resp.setStatus(HttpStatus.OK_200);
         resp.setCharacterEncoding("KOI8-R");
         resp.getWriter().println("<p><b><h1>Глобальная статистика</h1></b></p>");
-       renderingMenu(resp,NamesOfPages.GLOBAL_STATISTIC);
+        renderingMenu(resp,NamesOfPages.GLOBAL_STATISTIC);
         setConnection();
         renderTable(resp);
     }

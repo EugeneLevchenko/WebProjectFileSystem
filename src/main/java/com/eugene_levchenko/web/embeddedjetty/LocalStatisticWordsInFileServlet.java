@@ -23,9 +23,7 @@ public class LocalStatisticWordsInFileServlet extends MyServlet {
         resp.setCharacterEncoding("KOI8-R");
 
         resp.getWriter().println("<p><b><h1>Локальная статистика слов по файлу</h1></b></p>");
-        resp.getWriter().println("<p><a href=\"http://localhost:8080/main\">Главная</a></p>");
-        resp.getWriter().println("<p><a href=\"http://localhost:8080/ls\">Локальная статистика файлов</a></p>");
-        resp.getWriter().println("<p><a href=\"http://localhost:8080/gs\">Глобальная статистика</a></p>");
+        renderingMenu(resp,NamesOfPages.ALL_ITEMS);
         paramValue = req.getParameter(nameOfParam);
         setConnection();
         renderTable(resp);

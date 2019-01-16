@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class MyServlet extends HttpServlet {
 
-    protected String[][] arrayOfURLAndDescriptions = {
+    protected static String[][] ARRAY_OF_URL_AND_DESCRIPTION = {
             {"Главная","http://localhost:8080/main"},
             {"Глобальная статистика","http://localhost:8080/gs"},
             {"Локальная статистика файлов","http://localhost:8080/ls"}
@@ -33,17 +33,16 @@ public class MyServlet extends HttpServlet {
         renderingMenu(resp,NamesOfPages.MAIN);
     }
 
-    protected void renderingMenu(HttpServletResponse resp,Enum nameOfPage) throws IOException {
-        int indexOfEnum=-1;
-        indexOfEnum=nameOfPage.ordinal();
+    protected void renderingMenu(HttpServletResponse resp,Enum excludedItem) throws IOException {
+        int indexOfEnum=excludedItem.ordinal();
         String menuItem="";
 
-        for (int i = 0; i < arrayOfURLAndDescriptions.length; i++) {
-            for (int j = 0; j < arrayOfURLAndDescriptions[i].length; j++) {
+        for (int i = 0; i < ARRAY_OF_URL_AND_DESCRIPTION.length; i++) {
+            for (int j = 0; j < ARRAY_OF_URL_AND_DESCRIPTION[i].length; j++) {
                 if (i!=indexOfEnum)
                 {
-                            menuItem+=" <li> <a href="+ arrayOfURLAndDescriptions[i][1]+">"
-                            +arrayOfURLAndDescriptions[i][0]+"</a> </li>" ;
+                    menuItem+=" <li> <a href="+ ARRAY_OF_URL_AND_DESCRIPTION[i][1]+">"
+                            + ARRAY_OF_URL_AND_DESCRIPTION[i][0]+"</a> </li>" ;
                     break;
                 }
             }
@@ -66,11 +65,5 @@ public class MyServlet extends HttpServlet {
                 "  <ul class=\"hr\">\n" +
                 menuItem +
                 "</ul>");
-
-
     }
-
-    //  protected void rendering
-
-
 }

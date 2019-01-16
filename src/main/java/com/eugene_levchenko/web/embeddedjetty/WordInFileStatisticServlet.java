@@ -10,10 +10,10 @@ import java.util.ArrayList;
 
 public class WordInFileStatisticServlet extends MyServlet {
 
-   private String nameOfParam="word";
-   private String paramValue="";
+    private String nameOfParam="word";
+    private String paramValue="";
 
-   private ArrayList<WordInFileStatEntity> list=new ArrayList<WordInFileStatEntity>();
+    private ArrayList<WordInFileStatEntity> list=new ArrayList<WordInFileStatEntity>();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
@@ -22,12 +22,10 @@ public class WordInFileStatisticServlet extends MyServlet {
         resp.setCharacterEncoding("KOI8-R");
         paramValue = req.getParameter(nameOfParam);
         resp.getWriter().println("<p><b><h1>Статистика слова в директории</h1></b></p>");
-        resp.getWriter().println("<p><a href=\"http://localhost:8080/main\">Главная</a></p>");
-        resp.getWriter().println("<p><a href=\"http://localhost:8080/ls\">Локальная статистика файлов</a></p>");
-        resp.getWriter().println("<p><a href=\"http://localhost:8080/gs\">Глобальная статистика</a></p>");
+        renderingMenu(resp,NamesOfPages.ALL_ITEMS);
 
-            setConnection();
-            renderTable(resp);
+        setConnection();
+        renderTable(resp);
     }
 
     public String createTable() {
@@ -55,7 +53,7 @@ public class WordInFileStatisticServlet extends MyServlet {
 
             while (res.next())
             {
-                  list.add(new WordInFileStatEntity(res.getString(1),res.getInt(2)));
+                list.add(new WordInFileStatEntity(res.getString(1),res.getInt(2)));
             }
 
             resultSet=res;
