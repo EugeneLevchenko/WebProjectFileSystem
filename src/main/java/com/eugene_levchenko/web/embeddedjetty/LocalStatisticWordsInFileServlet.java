@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class LocalStatisticOfFileServlet extends MyServlet {
+public class LocalStatisticWordsInFileServlet extends MyServlet {
 
    private ArrayList<LocalStatOfFileEntity> list=new ArrayList<LocalStatOfFileEntity>();
 

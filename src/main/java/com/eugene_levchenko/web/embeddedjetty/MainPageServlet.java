@@ -16,9 +16,9 @@ public class MainPageServlet extends MyServlet {
         renderPage(resp);
         System.out.println(req.getServletPath());
     }
-
+/*
     @Override
-    protected void renderingMenu(HttpServletResponse resp) throws IOException {
+    protected void renderingMenu(HttpServletResponse resp,Enum nameOfPage) throws IOException {
         resp.getWriter().println(" <style>\n" +
                 "   ul.hr {\n" +
                 "    margin: 20; \n" +
@@ -38,4 +38,5 @@ public class MainPageServlet extends MyServlet {
                 " <li> <a href=\"http://localhost:8080/ls\">Локальная статистика файлов</a> </li> "+
                 "  </ul>");
     }
+    */
 }

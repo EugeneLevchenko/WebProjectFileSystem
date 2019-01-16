@@ -9,11 +9,18 @@ import java.sql.SQLException;
 
 public class MyServlet extends HttpServlet {
 
-   protected final static String URL = "jdbc:mysql://localhost:3306/webprojectfilesystemdb";
-   protected final static String USERNAME = "root";
-   protected final static String PASSWORD = "root";
+    protected String[][] arrayOfURLAndDescriptions = {
+            {"Главная","http://localhost:8080/main"},
+            {"Глобальная статистика","http://localhost:8080/gs"},
+            {"Локальная статистика файлов","http://localhost:8080/ls"}
+    };
 
-   protected Connection connection;
+
+    protected final static String URL = "jdbc:mysql://localhost:3306/webprojectfilesystemdb";
+    protected final static String USERNAME = "root";
+    protected final static String PASSWORD = "root";
+
+    protected Connection connection;
     {
         try {
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -23,13 +30,47 @@ public class MyServlet extends HttpServlet {
     }
 
     protected void renderPage(HttpServletResponse resp) throws IOException {
-        renderingMenu(resp);
+        renderingMenu(resp,NamesOfPages.MAIN);
     }
 
-    protected void renderingMenu(HttpServletResponse resp) throws IOException {
+    protected void renderingMenu(HttpServletResponse resp,Enum nameOfPage) throws IOException {
+        int indexOfEnum=-1;
+        indexOfEnum=nameOfPage.ordinal();
+        String menuItem="";
+
+        for (int i = 0; i < arrayOfURLAndDescriptions.length; i++) {
+            for (int j = 0; j < arrayOfURLAndDescriptions[i].length; j++) {
+                if (i!=indexOfEnum)
+                {
+                            menuItem+=" <li> <a href="+ arrayOfURLAndDescriptions[i][1]+">"
+                            +arrayOfURLAndDescriptions[i][0]+"</a> </li>" ;
+                    break;
+                }
+            }
+        }
+
+        resp.getWriter().println(" <style>\n" +
+                "   ul.hr {\n" +
+                "    margin: 20; \n" +
+                "    padding: 40px; \n" +
+                "   }\n" +
+                "   ul.hr li {\n" +
+                "    display: inline; \n" +
+                "    margin-right: 50px; \n" +
+                "    border: 1px solid #000; \n" +
+                "    padding: 30px; \n" +
+                "   }\n" +
+                "  </style>\n" +
+                " </head>\n" +
+                " <body>\n" +
+                "  <ul class=\"hr\">\n" +
+                menuItem +
+                "</ul>");
+
+
     }
 
-  //  protected void rendering
+    //  protected void rendering
 
 
 }

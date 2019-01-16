@@ -18,8 +18,7 @@ public class GlobalStatisticServlet extends MyServlet {
         resp.setStatus(HttpStatus.OK_200);
         resp.setCharacterEncoding("KOI8-R");
         resp.getWriter().println("<p><b><h1>Глобальная статистика</h1></b></p>");
-        resp.getWriter().println("<p><a href=\"http://localhost:8080/main\">Главная</a></p>");
-        resp.getWriter().println("<p><a href=\"http://localhost:8080/ls\">Локальная статистика файлов</a></p>");
+       renderingMenu(resp,NamesOfPages.GLOBAL_STATISTIC);
         setConnection();
         renderTable(resp);
     }

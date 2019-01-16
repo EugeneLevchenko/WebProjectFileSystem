@@ -21,7 +21,7 @@ public class WordInFileStatisticServlet extends MyServlet {
         resp.setStatus(HttpStatus.OK_200);
         resp.setCharacterEncoding("KOI8-R");
         paramValue = req.getParameter(nameOfParam);
-        resp.getWriter().println("<p><b><h1>Статистика слова в файле</h1></b></p>");
+        resp.getWriter().println("<p><b><h1>Статистика слова в директории</h1></b></p>");
         resp.getWriter().println("<p><a href=\"http://localhost:8080/main\">Главная</a></p>");
         resp.getWriter().println("<p><a href=\"http://localhost:8080/ls\">Локальная статистика файлов</a></p>");
         resp.getWriter().println("<p><a href=\"http://localhost:8080/gs\">Глобальная статистика</a></p>");

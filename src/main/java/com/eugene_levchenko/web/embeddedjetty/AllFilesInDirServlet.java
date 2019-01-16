@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class LocalStatisticServlet extends MyServlet {
+public class AllFilesInDirServlet extends MyServlet {
 
   private ArrayList<LocalStatEntity> list = new ArrayList<LocalStatEntity>();
 
@@ -17,8 +17,7 @@ public class LocalStatisticServlet extends MyServlet {
         resp.setStatus(HttpStatus.OK_200);
         resp.setCharacterEncoding("KOI8-R");
         resp.getWriter().println("<p><b><h1>Локальная статистика файлов</h1></b></p>");
-        resp.getWriter().println("<p><a href=\"http://localhost:8080/main\">Главная</a></p>");
-        resp.getWriter().println("<p><a href=\"http://localhost:8080/gs\">Глобальная статистика</a></p>");
+        renderingMenu(resp,NamesOfPages.LOCAL_STATISTIC);
         setConnection();
         renderTable(resp);
     }

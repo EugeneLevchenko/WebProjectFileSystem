@@ -9,9 +9,10 @@ public class App {
         ServletContextHandler handler = new ServletContextHandler(server, "/");
         handler.addServlet(MainPageServlet.class, "/main");
         handler.addServlet(GlobalStatisticServlet.class,"/gs");
-        handler.addServlet(LocalStatisticServlet.class,"/ls");
-        handler.addServlet(LocalStatisticOfFileServlet.class,"/lsf");
+        handler.addServlet(AllFilesInDirServlet.class,"/ls");
+        handler.addServlet(LocalStatisticWordsInFileServlet.class,"/lsf");
         handler.addServlet(WordInFileStatisticServlet.class,"/wsf");
         server.start();
+        System.out.println(NamesOfPages.GLOBAL_STATISTIC.ordinal());
     }
 }
