@@ -1,6 +1,7 @@
 package com.eugene_levchenko.web.embeddedjetty;
 
 import com.eugene_levchenko.web.embeddedjetty.Entities.WordInFileStatEntity;
+import com.eugene_levchenko.web.embeddedjetty.dao.AllFilesInDirDaoImpl;
 import org.eclipse.jetty.http.HttpStatus;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +15,8 @@ public class WordInFileStatisticServlet extends MyServlet {
     private String paramValue="";
 
     private ArrayList<WordInFileStatEntity> list=new ArrayList<WordInFileStatEntity>();
+
+    AllFilesInDirDaoImpl dao=new AllFilesInDirDaoImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
@@ -41,7 +44,7 @@ public class WordInFileStatisticServlet extends MyServlet {
     {
         ResultSet resultSet = null;
         try {
-            Connection connection = DriverManager.getConnection(URL,USERNAME,PASSWORD);
+            Connection connection = DriverManager.getConnection(dao.URL,dao.USERNAME,dao.PASSWORD);
             String query="SELECT fullnametable.fullfilename, localstatistic.value\n" +
                     "FROM localstatistic\n" +
                     "INNER JOIN fullnametable ON localstatistic.file_id = fullnametable.id \n" +

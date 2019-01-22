@@ -13,6 +13,5 @@ public class App {
         handler.addServlet(LocalStatisticWordsInFileServlet.class,"/lsf");
         handler.addServlet(WordInFileStatisticServlet.class,"/wsf");
         server.start();
-        System.out.println(NamesOfPages.GLOBAL_STATISTIC.ordinal());
     }
 }
