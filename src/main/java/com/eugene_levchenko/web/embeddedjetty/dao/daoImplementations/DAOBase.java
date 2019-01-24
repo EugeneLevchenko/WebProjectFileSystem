@@ -1,10 +1,10 @@
-package com.eugene_levchenko.web.embeddedjetty.dao;
+package com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public abstract class BaseDao<T> {
+public abstract class DAOBase<T> {
 
     public final static String URL = "jdbc:mysql://localhost:3306/webprojectfilesystemdb";
     public final static String USERNAME = "root";
@@ -14,6 +14,4 @@ public abstract class BaseDao<T> {
         Connection connection = DriverManager.getConnection(URL ,USERNAME,PASSWORD);
         return connection;
     }
-
-    public abstract void getData();
 }

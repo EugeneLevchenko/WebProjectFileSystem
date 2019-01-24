@@ -1,18 +1,18 @@
-package com.eugene_levchenko.web.embeddedjetty.Entities;
+package com.eugene_levchenko.web.embeddedjetty.entities;
 
-public class LocalStatOfFileEntity {
+public class EntityLocalStatOfFile {
 
    private String word;
    private int value;
 
-    public LocalStatOfFileEntity(String word, int value) {
+    public EntityLocalStatOfFile(String word, int value) {
         this.word = word;
         this.value = value;
     }
 
     @Override
     public String toString() {
-        return "LocalStatOfFileEntity{" +
+        return "EntityLocalStatOfFile{" +
                 "word='" + word + '\'' +
                 ", value=" + value +
                 '}';

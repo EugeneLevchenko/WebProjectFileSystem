@@ -1,10 +1,10 @@
-package com.eugene_levchenko.web.embeddedjetty;
+package com.eugene_levchenko.web.embeddedjetty.servlets;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class MyServlet extends HttpServlet {
+public class ServletBase extends HttpServlet {
 
     protected static String[][] ARRAY_OF_URL_AND_DESCRIPTION = {
             {"Главная","http://localhost:8080/main"},

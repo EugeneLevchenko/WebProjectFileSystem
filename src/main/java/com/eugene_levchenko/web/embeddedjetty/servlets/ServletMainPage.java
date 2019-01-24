@@ -1,11 +1,13 @@
-package com.eugene_levchenko.web.embeddedjetty;
+package com.eugene_levchenko.web.embeddedjetty.servlets;
 
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.eugene_levchenko.web.embeddedjetty.enums.ENamesOfPages;
 import org.eclipse.jetty.http.HttpStatus;
 
-public class MainPageServlet extends MyServlet {
+public class ServletMainPage extends ServletBase {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
@@ -13,7 +15,7 @@ public class MainPageServlet extends MyServlet {
         resp.setStatus(HttpStatus.OK_200);
         resp.setCharacterEncoding("KOI8-R");
         resp.getWriter().println("<p><b><h1>Главная</h1></b></p>");
-       renderingMenu(resp,NamesOfPages.MAIN);
+        renderingMenu(resp, ENamesOfPages.MAIN);
         System.out.println(req.getServletPath());
     }
 }

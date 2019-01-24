@@ -1,18 +1,18 @@
-package com.eugene_levchenko.web.embeddedjetty.Entities;
+package com.eugene_levchenko.web.embeddedjetty.entities;
 
-public class WordInFileStatEntity {
+public class EntityWordInFileStat {
 
    private String nameOfFile;
    private int value;
 
-    public WordInFileStatEntity(String nameOfFile, int value) {
+    public EntityWordInFileStat(String nameOfFile, int value) {
         this.nameOfFile = nameOfFile;
         this.value = value;
     }
 
     @Override
     public String toString() {
-        return "WordInFileStatEntity{" +
+        return "EntityWordInFileStat{" +
                 "nameOfFile='" + nameOfFile + '\'' +
                 ", value=" + value +
                 '}';

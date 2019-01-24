@@ -1,18 +1,18 @@
-package com.eugene_levchenko.web.embeddedjetty.Entities;
+package com.eugene_levchenko.web.embeddedjetty.entities;
 
-public class GlobalStatEntity {
+public class EntityGlobalStat {
 
    private String word;
    private int value;
 
-    public GlobalStatEntity(String word, int value) {
+    public EntityGlobalStat(String word, int value) {
         this.word = word;
         this.value = value;
     }
 
     @Override
     public String toString() {
-        return "GlobalStatEntity{" +
+        return "EntityGlobalStat{" +
                 "word='" + word + '\'' +
                 ", value=" + value +
                 '}';
