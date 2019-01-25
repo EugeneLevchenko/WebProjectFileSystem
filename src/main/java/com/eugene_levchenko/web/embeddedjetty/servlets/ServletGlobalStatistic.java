@@ -1,6 +1,6 @@
 package com.eugene_levchenko.web.embeddedjetty.servlets;
 
-import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOBase;
+import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOGetAll;
 import com.eugene_levchenko.web.embeddedjetty.entities.EntityGlobalStat;
 import com.eugene_levchenko.web.embeddedjetty.enums.ENamesOfPages;
 import com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations.DAOImplGlobalStat;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ServletGlobalStatistic extends ServletBase {
 
-    IDAOBase dao=new DAOImplGlobalStat();
+    IDAOGetAll dao=new DAOImplGlobalStat();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {

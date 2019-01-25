@@ -1,7 +1,7 @@
 package com.eugene_levchenko.web.embeddedjetty.servlets;
 
 import com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations.DAOImplWordInFileStat;
-import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOSelectWithParam;
+import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOGetAllById;
 import com.eugene_levchenko.web.embeddedjetty.entities.EntityWordInFileStat;
 import com.eugene_levchenko.web.embeddedjetty.enums.ENamesOfPages;
 import org.eclipse.jetty.http.HttpStatus;
@@ -14,15 +14,15 @@ import java.util.List;
 public class ServletWordInFileStatistic extends ServletBase {
 
     private String nameOfParam="word";
-    private int paramValue=0;
-    private IDAOSelectWithParam dao=new DAOImplWordInFileStat();
+    private String paramValue="";
+    private IDAOGetAllById dao=new DAOImplWordInFileStat();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
         resp.setStatus(HttpStatus.OK_200);
         resp.setCharacterEncoding("KOI8-R");
-        paramValue = Integer.parseInt(req.getParameter(nameOfParam));
+        paramValue = req.getParameter(nameOfParam);
         resp.getWriter().println("<p><b><h1>Статистика слова в директории</h1></b></p>");
         renderingMenu(resp, ENamesOfPages.ALL_ITEMS);
 
@@ -36,7 +36,7 @@ public class ServletWordInFileStatistic extends ServletBase {
     public String createTable() throws SQLException {
 
         String table="";
-        List<EntityWordInFileStat> list=dao.getDataFromSelectByValue(String.valueOf(paramValue));
+        List<EntityWordInFileStat> list=dao.getAllById(paramValue);
 
         for (EntityWordInFileStat i: list) {
             table+="<tr> <td>"+i.getNameOfFile()+"</td> <td>"+i.getValue()+"</td>";

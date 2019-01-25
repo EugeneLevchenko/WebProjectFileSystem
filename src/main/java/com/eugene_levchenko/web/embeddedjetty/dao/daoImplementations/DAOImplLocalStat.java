@@ -1,8 +1,7 @@
 package com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations;
 
-import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOBase;
-import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOFileNameEntity;
-import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOSelectWithParam;
+import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOGetFileNameById;
+import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOGetAllById;
 import com.eugene_levchenko.web.embeddedjetty.entities.EntityLocalStatOfFile;
 
 import java.sql.ResultSet;
@@ -11,9 +10,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DAOImplLocalStat extends DAOBase implements IDAOSelectWithParam, IDAOFileNameEntity {
+public class DAOImplLocalStat extends DAOBase implements IDAOGetAllById, IDAOGetFileNameById {
+
     @Override
-    public List<EntityLocalStatOfFile> getDataFromSelectByValue(int paramValue) {
+    public List<EntityLocalStatOfFile> getAllById(Object paramValue) {
         List<EntityLocalStatOfFile> list = new ArrayList<EntityLocalStatOfFile>();
 
         try {
@@ -51,4 +51,7 @@ public class DAOImplLocalStat extends DAOBase implements IDAOSelectWithParam, ID
 
         return fileName;
     }
+
+
+
 }

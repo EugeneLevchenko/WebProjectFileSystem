@@ -1,16 +1,15 @@
 package com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations;
 
-
-import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOSelectWithParam;
+import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOGetAllById;
 import com.eugene_levchenko.web.embeddedjetty.entities.EntityWordInFileStat;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DAOImplWordInFileStat extends DAOBase implements IDAOSelectWithParam {
+public class DAOImplWordInFileStat extends DAOBase implements IDAOGetAllById {
 
     @Override
-    public List<EntityWordInFileStat> getDataFromSelectByValue(int paramValue) throws SQLException {
+    public List<EntityWordInFileStat> getAllById(Object paramValue) throws SQLException {
         List<EntityWordInFileStat> list = new ArrayList<EntityWordInFileStat>();
             String query=
                     "SELECT fullnametable.fullfilename, localstatistic.value\n" +
@@ -29,6 +28,4 @@ public class DAOImplWordInFileStat extends DAOBase implements IDAOSelectWithPara
 
         return list;
     }
-
-
 }
