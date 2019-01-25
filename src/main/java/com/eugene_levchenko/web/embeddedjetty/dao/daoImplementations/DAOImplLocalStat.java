@@ -4,9 +4,9 @@ import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOGetFileNameB
 import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOGetAllById;
 import com.eugene_levchenko.web.embeddedjetty.entities.EntityLocalStatOfFile;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,14 +17,14 @@ public class DAOImplLocalStat extends DAOBase implements IDAOGetAllById, IDAOGet
         List<EntityLocalStatOfFile> list = new ArrayList<EntityLocalStatOfFile>();
 
         try {
-            String query="SELECT word,value FROM webprojectfilesystemdb.localstatistic where file_id=" +
-                    ""+paramValue+" order by 1;";
-            Statement st=getConnection().createStatement();
-            ResultSet res=st.executeQuery(query);
-            list.clear();
-            while (res.next())
+            String selectSQL = "SELECT word,value FROM webprojectfilesystemdb.localstatistic where file_id=?";
+            PreparedStatement preparedStatement = getConnection().prepareStatement(selectSQL);
+            preparedStatement.setInt(1, Integer.parseInt((String.valueOf(paramValue))));
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next())
             {
-                list.add(new EntityLocalStatOfFile(res.getString(1),res.getInt(2)));
+                list.add(new EntityLocalStatOfFile(rs.getString(1),rs.getInt(2)));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -36,22 +36,19 @@ public class DAOImplLocalStat extends DAOBase implements IDAOGetAllById, IDAOGet
     public String getFileNameById(int id) throws SQLException {
 
         String fileName="";
+        String queryGetFileName="SELECT fullfilename FROM webprojectfilesystemdb.fullnametable where id=?";
 
-        String queryGetFileName="SELECT fullfilename FROM webprojectfilesystemdb.fullnametable where id="+ id +";";
+        PreparedStatement preparedStatement = getConnection().prepareStatement(queryGetFileName);
+        preparedStatement.setInt(1, id);
+        ResultSet rs = preparedStatement.executeQuery();
 
-        Statement st2=getConnection().createStatement();
-        ResultSet res2=st2.executeQuery(queryGetFileName);
-
-        while (res2.next())
+        while (rs.next())
         {
-            fileName=res2.getString(1);
+            fileName=rs.getString(1);
         }
 
         System.out.println(fileName);
 
         return fileName;
     }
-
-
-
 }

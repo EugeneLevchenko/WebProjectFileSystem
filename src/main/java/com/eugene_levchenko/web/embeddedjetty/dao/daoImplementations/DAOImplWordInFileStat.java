@@ -11,6 +11,8 @@ public class DAOImplWordInFileStat extends DAOBase implements IDAOGetAllById {
     @Override
     public List<EntityWordInFileStat> getAllById(Object paramValue) throws SQLException {
         List<EntityWordInFileStat> list = new ArrayList<EntityWordInFileStat>();
+
+        /*
             String query=
                     "SELECT fullnametable.fullfilename, localstatistic.value\n" +
                             "FROM localstatistic\n" +
@@ -20,10 +22,22 @@ public class DAOImplWordInFileStat extends DAOBase implements IDAOGetAllById {
             Statement st=getConnection().createStatement();
             ResultSet res=st.executeQuery(query);
             list.clear();
+*/
 
-            while (res.next())
+        String query=
+                "SELECT fullnametable.fullfilename, localstatistic.value\n" +
+                        "FROM localstatistic\n" +
+                        "INNER JOIN fullnametable ON localstatistic.file_id = fullnametable.id \n" +
+                        "where localstatistic.word=?";
+
+        PreparedStatement preparedStatement = getConnection().prepareStatement(query);
+        preparedStatement.setString(1, (String) paramValue);
+        ResultSet rs = preparedStatement.executeQuery();
+        list.clear();
+
+            while (rs.next())
             {
-                list.add(new EntityWordInFileStat(res.getString(1),res.getInt(2)));
+                list.add(new EntityWordInFileStat(rs.getString(1),rs.getInt(2)));
             }
 
         return list;
