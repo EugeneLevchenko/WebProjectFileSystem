@@ -1,6 +1,7 @@
 package com.eugene_levchenko.web.embeddedjetty.entities;
 
 public class EntityAllFilesInDir {
+
    private int id;
    private String nameOfFile;
 

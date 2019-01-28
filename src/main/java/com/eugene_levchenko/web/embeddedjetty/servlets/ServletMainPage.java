@@ -13,7 +13,8 @@ public class ServletMainPage extends ServletBase {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
         resp.setStatus(HttpStatus.OK_200);
-        resp.setCharacterEncoding("KOI8-R");
+
+        resp.setCharacterEncoding("UTF-8");
         resp.getWriter().println("<p><b><h1>Главная</h1></b></p>");
         renderingMenu(resp, ENamesOfPages.MAIN);
         System.out.println(req.getServletPath());

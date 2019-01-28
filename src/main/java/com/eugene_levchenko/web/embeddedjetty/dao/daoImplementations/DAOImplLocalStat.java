@@ -1,7 +1,7 @@
 package com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations;
 
 import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOGetFileNameById;
-import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOGetAllById;
+import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOGetById;
 import com.eugene_levchenko.web.embeddedjetty.entities.EntityLocalStatOfFile;
 
 import java.sql.PreparedStatement;
@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DAOImplLocalStat extends DAOBase implements IDAOGetAllById, IDAOGetFileNameById {
+public class DAOImplLocalStat extends DAOBase implements IDAOGetById, IDAOGetFileNameById {
 
     @Override
     public List<EntityLocalStatOfFile> getAllById(Object paramValue) {
