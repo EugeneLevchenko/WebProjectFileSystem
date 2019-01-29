@@ -21,7 +21,7 @@ public class ServletWordInFileStatistic extends ServletBase {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
         resp.setStatus(HttpStatus.OK_200);
-        resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("text/html;charset=UTF-8");
         paramValue = req.getParameter(nameOfParam);
         resp.getWriter().println("<p><b><h1>Статистика слова в директории</h1></b></p>");
         renderingMenu(resp, ENamesOfPages.ALL_ITEMS);

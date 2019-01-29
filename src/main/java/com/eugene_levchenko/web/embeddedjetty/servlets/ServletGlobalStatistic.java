@@ -18,7 +18,7 @@ public class ServletGlobalStatistic extends ServletBase {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
         resp.setStatus(HttpStatus.OK_200);
-        resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("text/html;charset=UTF-8");
         resp.getWriter().println("<p><b><h1>Глобальная статистика</h1></b></p>");
         renderingMenu(resp, ENamesOfPages.GLOBAL_STATISTIC);
 

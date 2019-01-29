@@ -21,7 +21,7 @@ public class ServletLocalStatistic extends ServletBase {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
         resp.setStatus(HttpStatus.OK_200);
-        resp.setCharacterEncoding("UTF-8");//
+        resp.setContentType("text/html;charset=UTF-8");
         resp.getWriter().println("<p><b><h1>Локальная статистика слов по файлу</h1></b></p>");
         renderingMenu(resp, ENamesOfPages.ALL_ITEMS);
         paramValue = Integer.parseInt(req.getParameter(nameOfParam));
@@ -51,7 +51,8 @@ public class ServletLocalStatistic extends ServletBase {
     public void renderTable( HttpServletResponse resp) throws IOException, SQLException {
         resp.getWriter().println(
                 " <table border=\"1\">\n" +
-                        "   <caption>Статистика слов в файле: "+dao.getFileNameById(paramValue)+"</caption>\n" +
+                        "   <caption>Статистика слов в файле: "
+                        +dao.getFileNameById(paramValue)+"</caption>\n" +
                         "   <tr>\n" +
                         "    <th>Слово</th>\n" +
                         "    <th>Значение</th>\n" +
