@@ -20,7 +20,6 @@ public class ServletWordInFileStatistic extends ServletBase {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
-        resp.setStatus(HttpStatus.OK_200);
         resp.setContentType("text/html;charset=UTF-8");
         paramValue = req.getParameter(nameOfParam);
         resp.getWriter().println("<p><b><h1>Статистика слова в директории</h1></b></p>");

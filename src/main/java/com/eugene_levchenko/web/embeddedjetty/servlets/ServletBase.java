@@ -1,6 +1,9 @@
 package com.eugene_levchenko.web.embeddedjetty.servlets;
 
+import com.eugene_levchenko.web.embeddedjetty.enums.ENamesOfPages;
+
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -45,4 +48,22 @@ public class ServletBase extends HttpServlet {
                 menuItem +
                 "</ul>");
     }
+
+    protected void doGetCommon(HttpServletRequest req, HttpServletResponse resp,String nameOfPage) throws IOException {
+        resp.setContentType("text/html;charset=UTF-8");
+        resp.getWriter().println(getHTMLQueryPageName(nameOfPage));
+        renderingMenu(resp, ENamesOfPages.MAIN);
+
+    }
+
+    protected String getHTMLQueryPageName(String name)
+    {
+        String strBegin="<p><b><h1>";
+        String strEnd="</h1></b></p>";
+        String strResult=strBegin+name+strEnd;
+        return strResult;
+    }
+
+
+
 }

@@ -14,5 +14,12 @@ public class App {
         handler.addServlet(ServletLocalStatistic.class,"/lsf");
         handler.addServlet(ServletWordInFileStatistic.class,"/wsf");
         server.start();
+
+        String strBegin="<p><b><h1>";
+        String strEnd="</h1></b></p>";
+        String strName="Главная";
+
+        String strResult=strBegin+strName+strEnd;
+        System.out.println(strResult);
     }
 }

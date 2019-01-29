@@ -4,7 +4,6 @@ import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOGetAll;
 import com.eugene_levchenko.web.embeddedjetty.entities.EntityGlobalStat;
 import com.eugene_levchenko.web.embeddedjetty.enums.ENamesOfPages;
 import com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations.DAOImplGlobalStat;
-import org.eclipse.jetty.http.HttpStatus;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -14,14 +13,14 @@ import java.util.List;
 public class ServletGlobalStatistic extends ServletBase {
 
     IDAOGetAll dao=new DAOImplGlobalStat();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
-        resp.setStatus(HttpStatus.OK_200);
-        resp.setContentType("text/html;charset=UTF-8");
-        resp.getWriter().println("<p><b><h1>Глобальная статистика</h1></b></p>");
-        renderingMenu(resp, ENamesOfPages.GLOBAL_STATISTIC);
-
+      //  resp.setContentType("text/html;charset=UTF-8");
+      //  resp.getWriter().println("<p><b><h1>Глобальная статистика</h1></b></p>");
+      //  renderingMenu(resp, ENamesOfPages.GLOBAL_STATISTIC);
+doGetCommon(req,resp,"Глобальная статистика");
         try {
             renderTable(resp);
         } catch (SQLException e) {
