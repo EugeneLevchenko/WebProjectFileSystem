@@ -49,11 +49,10 @@ public class ServletBase extends HttpServlet {
                 "</ul>");
     }
 
-    protected void doGetCommon(HttpServletRequest req, HttpServletResponse resp,String nameOfPage) throws IOException {
+    protected void doGetCommon(HttpServletRequest req, HttpServletResponse resp,ENamesOfPages enumPage,String nameOfPage) throws IOException {
         resp.setContentType("text/html;charset=UTF-8");
         resp.getWriter().println(getHTMLQueryPageName(nameOfPage));
-        renderingMenu(resp, ENamesOfPages.MAIN);
-
+        renderingMenu(resp, enumPage);
     }
 
     protected String getHTMLQueryPageName(String name)
@@ -63,7 +62,4 @@ public class ServletBase extends HttpServlet {
         String strResult=strBegin+name+strEnd;
         return strResult;
     }
-
-
-
 }

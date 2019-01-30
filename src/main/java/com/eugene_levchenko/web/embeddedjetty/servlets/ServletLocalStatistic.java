@@ -20,16 +20,9 @@ public class ServletLocalStatistic extends ServletBase {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
-        resp.setContentType("text/html;charset=UTF-8");
-        resp.getWriter().println("<p><b><h1>Локальная статистика слов по файлу</h1></b></p>");
-        renderingMenu(resp, ENamesOfPages.ALL_ITEMS);
+        doGetCommon(req,resp,ENamesOfPages.ALL_ITEMS,"Локальная статистика слов по файлу");
         paramValue = Integer.parseInt(req.getParameter(nameOfParam));
-
-        try {
-            renderTable(resp);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        renderTable(resp);
     }
 
     public String createTable() throws SQLException {
@@ -47,16 +40,20 @@ public class ServletLocalStatistic extends ServletBase {
         return table;
     }
 
-    public void renderTable( HttpServletResponse resp) throws IOException, SQLException {
-        resp.getWriter().println(
-                " <table border=\"1\">\n" +
-                        "   <caption>Статистика слов в файле: "
-                        +dao.getFileNameById(paramValue)+"</caption>\n" +
-                        "   <tr>\n" +
-                        "    <th>Слово</th>\n" +
-                        "    <th>Значение</th>\n" +
-                        "   </tr>\n" +
-                        createTable()+
-                        "  </table>");
+    public void renderTable(HttpServletResponse resp) throws IOException {
+        try {
+            resp.getWriter().println(
+                    " <table border=\"1\">\n" +
+                            "   <caption>Статистика слов в файле: "
+                            +dao.getFileNameById(paramValue)+"</caption>\n" +
+                            "   <tr>\n" +
+                            "    <th>Слово</th>\n" +
+                            "    <th>Значение</th>\n" +
+                            "   </tr>\n" +
+                            createTable()+
+                            "  </table>");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

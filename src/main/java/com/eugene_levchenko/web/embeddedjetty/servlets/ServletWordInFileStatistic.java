@@ -20,10 +20,8 @@ public class ServletWordInFileStatistic extends ServletBase {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
-        resp.setContentType("text/html;charset=UTF-8");
+        doGetCommon(req,resp,ENamesOfPages.ALL_ITEMS,"Статистика слова в директории");
         paramValue = req.getParameter(nameOfParam);
-        resp.getWriter().println("<p><b><h1>Статистика слова в директории</h1></b></p>");
-        renderingMenu(resp, ENamesOfPages.ALL_ITEMS);
 
         try {
             renderTable(resp);
