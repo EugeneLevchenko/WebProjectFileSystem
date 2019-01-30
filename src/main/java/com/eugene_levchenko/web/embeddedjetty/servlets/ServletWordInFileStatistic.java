@@ -11,24 +11,10 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.List;
 
-public class ServletWordInFileStatistic extends ServletBase {
+public  class ServletWordInFileStatistic extends ServletBaseWithTable {
 
-    private String nameOfParam="word";
     private String paramValue="";
     private IDAOGetById dao=new DAOImplWordInFileStat();
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
-    {
-        doGetCommon(req,resp,ENamesOfPages.ALL_ITEMS,"Статистика слова в директории");
-        paramValue = req.getParameter(nameOfParam);
-
-        try {
-            renderTable(resp);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     public String createTable() throws SQLException {
 
@@ -42,7 +28,12 @@ public class ServletWordInFileStatistic extends ServletBase {
         return table;
     }
 
-    public void renderTable( HttpServletResponse resp) throws IOException, SQLException {
+    @Override
+    protected ENamesOfPages getExcludedMenuItem() {
+        return ENamesOfPages.ALL_ITEMS;
+    }
+@Override
+    public void renderTable(HttpServletResponse resp) throws IOException, SQLException {
         resp.getWriter().println(
                 " <table border=\"1\">\n" +
                         "   <caption>Глобальная статистика слова: <h1 style=\"margin: 0;\"><b>"+paramValue+"</b></h1> в директории</caption>\n" +
@@ -52,5 +43,10 @@ public class ServletWordInFileStatistic extends ServletBase {
                         "   </tr>\n" +
                         createTable()+
                         "  </table>");
+    }
+
+    @Override
+    protected String getCaptionPage() {
+        return "Статистика слова в файлах";
     }
 }

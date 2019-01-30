@@ -7,16 +7,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class ServletBase extends HttpServlet {
+public abstract class ServletBase extends HttpServlet {
 
     protected static String[][] ARRAY_OF_URL_AND_DESCRIPTION = {
-            {"Главная","http://localhost:8080/main"},
-            {"Глобальная статистика","http://localhost:8080/gs"},
-            {"Локальная статистика файлов","http://localhost:8080/ls"}
+            {"Главная","main"},
+            {"Глобальная статистика","gs"},
+            {"Локальная статистика файлов","ls"}
     };
 
-    protected void renderingMenu(HttpServletResponse resp,Enum excludedItem) throws IOException {
-        int indexOfEnum=excludedItem.ordinal();
+    protected void renderingMenu(HttpServletResponse resp) throws IOException {
+        int indexOfEnum=getExcludedMenuItem().ordinal();
         String menuItem="";
 
         for (int i = 0; i < ARRAY_OF_URL_AND_DESCRIPTION.length; i++) {
@@ -49,17 +49,22 @@ public class ServletBase extends HttpServlet {
                 "</ul>");
     }
 
-    protected void doGetCommon(HttpServletRequest req, HttpServletResponse resp,ENamesOfPages enumPage,String nameOfPage) throws IOException {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("text/html;charset=UTF-8");
-        resp.getWriter().println(getHTMLQueryPageName(nameOfPage));
-        renderingMenu(resp, enumPage);
+        resp.getWriter().println(getHTMLQueryPageName());
+        renderingMenu(resp);
     }
 
-    protected String getHTMLQueryPageName(String name)
+    protected abstract ENamesOfPages getExcludedMenuItem();
+
+    protected abstract String getCaptionPage();
+
+    protected String getHTMLQueryPageName()
     {
         String strBegin="<p><b><h1>";
         String strEnd="</h1></b></p>";
-        String strResult=strBegin+name+strEnd;
+        String strResult=strBegin+this.getCaptionPage()+strEnd;
         return strResult;
     }
 }

@@ -10,16 +10,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ServletGlobalStatistic extends ServletBase {
+public  class ServletGlobalStatistic extends ServletBaseWithTable {
 
     IDAOGetAll dao=new DAOImplGlobalStat();
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
-    {
-        doGetCommon(req,resp,ENamesOfPages.GLOBAL_STATISTIC,"Глобальная статистика");
-        renderTable(resp);
-    }
 
     public String createTable() throws SQLException {
         String table="";
@@ -28,7 +21,7 @@ public class ServletGlobalStatistic extends ServletBase {
         for (EntityGlobalStat i: list)
         {
             String word=i.getWord();
-            table+="<tr> <td>"+"<a href=\"http://localhost:8080/wsf?word="
+            table+="<tr> <td>"+"<a href=\"wsf?word="
                     +word+"\">"
                     +word+"</a>"+"</td> <td>"
                     +i.getValue()+"</td>";//
@@ -36,19 +29,27 @@ public class ServletGlobalStatistic extends ServletBase {
         return table;
     }
 
-    public void renderTable( HttpServletResponse resp) throws IOException {
-        try {
-            resp.getWriter().println(
-                    " <table border=\"1\">\n" +
-                            "   <caption>Глобальная статистика слов в директории</caption>\n" +
-                            "   <tr>\n" +
-                            "    <th>Слово</th>\n" +
-                            "    <th>Значение</th>\n" +
-                            "   </tr>\n" +
-                            createTable()+
-                            "  </table>");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    @Override
+    protected ENamesOfPages getExcludedMenuItem() {
+        return ENamesOfPages.GLOBAL_STATISTIC;
+    }
+
+    @Override
+    public void renderTable(HttpServletResponse resp) throws IOException, SQLException {
+
+        resp.getWriter().println(
+                " <table border=\"1\">\n" +
+                        "   <caption>Глобальная статистика слов в директории</caption>\n" +
+                        "   <tr>\n" +
+                        "    <th>Слово</th>\n" +
+                        "    <th>Значение</th>\n" +
+                        "   </tr>\n" +
+                        createTable()+
+                        "  </table>");
+    }
+
+    @Override
+    protected String getCaptionPage() {
+        return "Глобальная статистика";
     }
 }

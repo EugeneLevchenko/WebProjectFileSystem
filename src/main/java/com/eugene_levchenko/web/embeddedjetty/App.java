@@ -6,7 +6,7 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        Server server = new Server(8080);
+        Server server = new Server(8081);
         ServletContextHandler handler = new ServletContextHandler(server, "/");
         handler.addServlet(ServletMainPage.class, "/main");
         handler.addServlet(ServletGlobalStatistic.class,"/gs");
