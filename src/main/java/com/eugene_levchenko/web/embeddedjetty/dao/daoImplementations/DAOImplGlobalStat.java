@@ -1,6 +1,6 @@
 package com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations;
 
-import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOGetAll;
+import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOGlobalStatEntity;
 import com.eugene_levchenko.web.embeddedjetty.entities.EntityGlobalStat;
 
 import java.sql.ResultSet;
@@ -9,7 +9,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DAOImplGlobalStat extends DAOBase implements IDAOGetAll {
+public class DAOImplGlobalStat extends DAOBase implements IDAOGlobalStatEntity {
+
+    @Override
+    public List<EntityGlobalStat> getAllById(String paramValue) throws SQLException {
+        return null;
+    }
 
     @Override
     public List<EntityGlobalStat> getAll() throws SQLException {

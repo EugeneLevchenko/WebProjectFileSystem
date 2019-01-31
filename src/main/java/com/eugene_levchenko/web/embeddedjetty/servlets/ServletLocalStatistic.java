@@ -1,7 +1,7 @@
 package com.eugene_levchenko.web.embeddedjetty.servlets;
 
 import com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations.DAOImplLocalStat;
-import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOGetFileNameById;
+import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOLocalStatOfFileEntity;
 import com.eugene_levchenko.web.embeddedjetty.entities.EntityLocalStatOfFile;
 import com.eugene_levchenko.web.embeddedjetty.enums.ENamesOfPages;
 
@@ -11,22 +11,14 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.List;
 
-public  class ServletLocalStatistic extends ServletBaseWithTable {
+public  class ServletLocalStatistic extends ServletBaseWithTableWithParam {
 
-    private IDAOGetFileNameById dao=new DAOImplLocalStat();
+    private IDAOLocalStatOfFileEntity dao=new DAOImplLocalStat();
     private String nameOfParam="id";
-    private int pageId =0;
-
-//    @Override
-  //  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
-   // {
-     //   doGetCommon(req,resp,ENamesOfPages.ALL_ITEMS,"Локальная статистика слов по файлу");
-
-      //  renderTable(resp);
-  //  }
+    private int id =0;
 
     public String createTable() throws SQLException {
-        List<EntityLocalStatOfFile> list=dao.getAllById(String.valueOf(pageId));
+        List<EntityLocalStatOfFile> list=dao.getAllById(id);
         String table="";
 
         for (EntityLocalStatOfFile i: list)
@@ -44,15 +36,16 @@ public  class ServletLocalStatistic extends ServletBaseWithTable {
     protected ENamesOfPages getExcludedMenuItem() {
         return ENamesOfPages.LOCAL_STATISTIC;
     }
-@Override
-    public void renderTable(HttpServletResponse resp) throws IOException {
-        try {
-            pageId = Integer.parseInt(req.getParameter(nameOfParam));
 
+@Override
+    public void renderTable(HttpServletResponse resp,HttpServletRequest req) throws IOException {
+        try {
+          id = Integer.parseInt( getParam(req,nameOfParam));
+            System.out.println(id);
             resp.getWriter().println(
                     " <table border=\"1\">\n" +
                             "   <caption>Статистика слов в файле: "
-                            +dao.getFileNameById(pageId)+"</caption>\n" +
+                            +dao.getFileNameById(id)+"</caption>\n" +
                             "   <tr>\n" +
                             "    <th>Слово</th>\n" +
                             "    <th>Значение</th>\n" +
@@ -68,4 +61,5 @@ public  class ServletLocalStatistic extends ServletBaseWithTable {
     protected String getCaptionPage() {
         return "Локальная статистика слов по файлу";
     }
+
 }

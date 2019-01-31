@@ -1,6 +1,8 @@
 package com.eugene_levchenko.web.embeddedjetty.servlets;
 
-import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOGetAll;
+import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOBase;
+
+import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOGlobalStatEntity;
 import com.eugene_levchenko.web.embeddedjetty.entities.EntityGlobalStat;
 import com.eugene_levchenko.web.embeddedjetty.enums.ENamesOfPages;
 import com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations.DAOImplGlobalStat;
@@ -12,7 +14,7 @@ import java.util.List;
 
 public  class ServletGlobalStatistic extends ServletBaseWithTable {
 
-    IDAOGetAll dao=new DAOImplGlobalStat();
+     IDAOGlobalStatEntity dao=new DAOImplGlobalStat();
 
     public String createTable() throws SQLException {
         String table="";

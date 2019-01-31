@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public abstract class DAOBase<T> {
+public abstract class DAOBase {
 
     public final static String URL = "jdbc:mysql://localhost:3306/webprojectfilesystemdb";
     public final static String USERNAME = "root";

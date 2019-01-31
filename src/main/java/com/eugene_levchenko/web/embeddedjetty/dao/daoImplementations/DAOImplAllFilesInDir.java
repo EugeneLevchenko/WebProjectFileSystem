@@ -1,6 +1,6 @@
 package com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations;
 
-import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOGetAll;
+import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOAllFilesInDirEntity;
 import com.eugene_levchenko.web.embeddedjetty.entities.EntityAllFilesInDir;
 
 import java.sql.ResultSet;
@@ -9,7 +9,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DAOImplAllFilesInDir extends DAOBase implements IDAOGetAll {
+public class DAOImplAllFilesInDir extends DAOBase implements IDAOAllFilesInDirEntity {
+    @Override
+    public List<EntityAllFilesInDir> getAllById(Integer paramValue) throws SQLException {
+        return null;
+    }
+
     @Override
     public List<EntityAllFilesInDir> getAll() {
         List<EntityAllFilesInDir> list = new ArrayList<EntityAllFilesInDir>();

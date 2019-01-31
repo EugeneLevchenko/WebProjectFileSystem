@@ -1,20 +1,21 @@
 package com.eugene_levchenko.web.embeddedjetty.servlets;
 
 import com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations.DAOImplWordInFileStat;
-import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOGetById;
+import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOBase;
 import com.eugene_levchenko.web.embeddedjetty.entities.EntityWordInFileStat;
 import com.eugene_levchenko.web.embeddedjetty.enums.ENamesOfPages;
-import org.eclipse.jetty.http.HttpStatus;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.*;
 import java.util.List;
 
-public  class ServletWordInFileStatistic extends ServletBaseWithTable {
+public  class ServletWordInFileStatistic extends ServletBaseWithTableWithParam {
 
     private String paramValue="";
-    private IDAOGetById dao=new DAOImplWordInFileStat();
+    private String nameOfParam="word";
+    private IDAOBase dao=new DAOImplWordInFileStat();
 
     public String createTable() throws SQLException {
 
@@ -32,8 +33,10 @@ public  class ServletWordInFileStatistic extends ServletBaseWithTable {
     protected ENamesOfPages getExcludedMenuItem() {
         return ENamesOfPages.ALL_ITEMS;
     }
+
 @Override
-    public void renderTable(HttpServletResponse resp) throws IOException, SQLException {
+    public void renderTable(HttpServletResponse resp, HttpServletRequest req) throws IOException, SQLException {
+        paramValue= (String) getParam(req,nameOfParam);
         resp.getWriter().println(
                 " <table border=\"1\">\n" +
                         "   <caption>Глобальная статистика слова: <h1 style=\"margin: 0;\"><b>"+paramValue+"</b></h1> в директории</caption>\n" +
