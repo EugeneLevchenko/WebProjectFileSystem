@@ -9,6 +9,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+//with hiber
+
 public class DAOImplAllFilesInDir extends DAOBase implements IDAOAllFilesInDirEntity {
     @Override
     public List<EntityAllFilesInDir> getAllById(Integer paramValue) throws SQLException {
