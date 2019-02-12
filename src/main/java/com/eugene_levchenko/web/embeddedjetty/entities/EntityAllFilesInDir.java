@@ -1,9 +1,19 @@
 package com.eugene_levchenko.web.embeddedjetty.entities;
 
+import com.eugene_levchenko.web.embeddedjetty.annotations.Column;
+import com.eugene_levchenko.web.embeddedjetty.annotations.Entity;
+import com.eugene_levchenko.web.embeddedjetty.annotations.Id;
+import com.eugene_levchenko.web.embeddedjetty.annotations.Table;
+import com.eugene_levchenko.web.embeddedjetty.ormController.EDataType;
+
+@Entity
+@Table(name = "fullnametable")
 public class EntityAllFilesInDir {
 
-   private int id;
-   private String nameOfFile;
+    @Id(name = "id")
+    private int id;
+    @Column(name = "fullfilename", type = EDataType.STRING)
+    private String nameOfFile;
 
     public EntityAllFilesInDir(int id, String nameOfFile) {
         this.id = id;

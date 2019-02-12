@@ -1,9 +1,9 @@
 package com.eugene_levchenko.web.embeddedjetty;
 
-import com.eugene_levchenko.web.embeddedjetty.annotations.Table;
 import com.eugene_levchenko.web.embeddedjetty.annotations.TestAnnotation;
 
-import com.eugene_levchenko.web.embeddedjetty.entities.EntityGlobalStat;
+import com.eugene_levchenko.web.embeddedjetty.entities.EntityAllFilesInDir;
+
 import com.eugene_levchenko.web.embeddedjetty.ormController.TableInDB;
 import com.eugene_levchenko.web.embeddedjetty.servlets.*;
 import org.eclipse.jetty.server.Server;
@@ -27,8 +27,10 @@ public class App {
         TestAnnotation anno = app.getClass().getAnnotation(TestAnnotation.class);
         System.out.println(anno.text());
 
-        EntityGlobalStat gs=new EntityGlobalStat("",0);
+      //  EntityGlobalStat gs=new EntityGlobalStat("",0);
+        EntityAllFilesInDir a=new EntityAllFilesInDir(3,"");
         TableInDB t=new TableInDB();
-        t.createTableIfDoesNotExist(gs);
+      //  t.isIdPresent()
+        t.createTableIfDoesNotExist(a);
     }
 }

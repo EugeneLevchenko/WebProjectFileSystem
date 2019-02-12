@@ -1,10 +1,9 @@
 package com.eugene_levchenko.web.embeddedjetty.entities;
 
+import com.eugene_levchenko.web.embeddedjetty.annotations.Column;
 import com.eugene_levchenko.web.embeddedjetty.annotations.Entity;
 import com.eugene_levchenko.web.embeddedjetty.annotations.Table;
 import com.eugene_levchenko.web.embeddedjetty.ormController.EDataType;
-
-import javax.persistence.Column;
 
 @Entity
 @Table(name = "table1")
