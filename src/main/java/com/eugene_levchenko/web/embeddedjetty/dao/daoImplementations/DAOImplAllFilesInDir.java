@@ -17,7 +17,7 @@ public class DAOImplAllFilesInDir extends DAOBase implements IDAOAllFilesInDirEn
 
     @Override
     public List<EntityAllFilesInDir> getAll() {
-        List<EntityAllFilesInDir> list = new ArrayList<EntityAllFilesInDir>();
+        List<EntityAllFilesInDir> list = new ArrayList<>();
         try {
             String query = "select * from fullnametable order by 1;";
             Statement st = getConnection().createStatement();
@@ -32,4 +32,3 @@ public class DAOImplAllFilesInDir extends DAOBase implements IDAOAllFilesInDirEn
         return list;
     }
 }
-//test

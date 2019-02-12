@@ -14,7 +14,7 @@ public class EntityWordInFileStat {
     public String toString() {
         return "EntityWordInFileStat{" +
                 "nameOfFile='" + nameOfFile + '\'' +
-                ", value=" + value +
+                ", text=" + value +
                 '}';
     }
 
@@ -24,5 +24,13 @@ public class EntityWordInFileStat {
 
     public int getValue() {
         return value;
+    }
+
+    public void setNameOfFile(String nameOfFile) {
+        this.nameOfFile = nameOfFile;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 }

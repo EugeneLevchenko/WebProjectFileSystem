@@ -5,8 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public abstract class DAOBase {
-
-    public final static String URL = "jdbc:mysql://localhost:3306/webprojectfilesystemdb";
+//webprojectfilesystemdb
+    public final static String URL = "jdbc:mysql://localhost:3306/customhiberdb";
     public final static String USERNAME = "root";
     public final static String PASSWORD = "root";
 

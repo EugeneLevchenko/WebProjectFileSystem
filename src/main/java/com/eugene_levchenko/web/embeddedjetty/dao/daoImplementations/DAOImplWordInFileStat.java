@@ -15,7 +15,7 @@ public class DAOImplWordInFileStat extends DAOBase implements IDAOWordInFileStat
 
         /*
             String query=
-                    "SELECT fullnametable.fullfilename, localstatistic.value\n" +
+                    "SELECT fullnametable.fullfilename, localstatistic.text\n" +
                             "FROM localstatistic\n" +
                             "INNER JOIN fullnametable ON localstatistic.file_id = fullnametable.id \n" +
                             "where localstatistic.word='"+paramValue+"' order by 1;";

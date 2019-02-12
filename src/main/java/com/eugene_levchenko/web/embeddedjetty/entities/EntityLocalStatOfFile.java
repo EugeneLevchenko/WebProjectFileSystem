@@ -14,8 +14,16 @@ public class EntityLocalStatOfFile {
     public String toString() {
         return "EntityLocalStatOfFile{" +
                 "word='" + word + '\'' +
-                ", value=" + value +
+                ", text=" + value +
                 '}';
+    }
+
+    public void setWord(String word) {
+        this.word = word;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 
     public String getWord() {

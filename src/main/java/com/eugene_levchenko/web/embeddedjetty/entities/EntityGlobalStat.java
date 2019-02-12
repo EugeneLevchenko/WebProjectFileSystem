@@ -1,12 +1,31 @@
 package com.eugene_levchenko.web.embeddedjetty.entities;
 
+import com.eugene_levchenko.web.embeddedjetty.annotations.Entity;
+import com.eugene_levchenko.web.embeddedjetty.annotations.Table;
+import com.eugene_levchenko.web.embeddedjetty.ormController.EDataType;
+
+import javax.persistence.Column;
+
+@Entity
+@Table(name = "table1")
 public class EntityGlobalStat {
 
-   private String word;
-   private int value;
+    @Column(name = "word",type = EDataType.STRING)
+    public String word;
+
+    @Column(name = "value",type = EDataType.INTEGER)
+    public int value;
 
     public EntityGlobalStat(String word, int value) {
         this.word = word;
+        this.value = value;
+    }
+
+    public void setWord(String word) {
+        this.word = word;
+    }
+
+    public void setValue(int value) {
         this.value = value;
     }
 
@@ -14,7 +33,7 @@ public class EntityGlobalStat {
     public String toString() {
         return "EntityGlobalStat{" +
                 "word='" + word + '\'' +
-                ", value=" + value +
+                ", text=" + value +
                 '}';
     }
 

@@ -25,4 +25,13 @@ public class EntityAllFilesInDir {
     public String getNameOfFile() {
         return nameOfFile;
     }
+
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setNameOfFile(String nameOfFile) {
+        this.nameOfFile = nameOfFile;
+    }
 }

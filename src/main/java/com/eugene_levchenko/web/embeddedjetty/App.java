@@ -1,10 +1,18 @@
 package com.eugene_levchenko.web.embeddedjetty;
 
+import com.eugene_levchenko.web.embeddedjetty.annotations.Table;
+import com.eugene_levchenko.web.embeddedjetty.annotations.TestAnnotation;
+
+import com.eugene_levchenko.web.embeddedjetty.entities.EntityGlobalStat;
+import com.eugene_levchenko.web.embeddedjetty.ormController.TableInDB;
 import com.eugene_levchenko.web.embeddedjetty.servlets.*;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 
+
+@TestAnnotation(text = "someText")
 public class App {
+
     public static void main(String[] args) throws Exception {
         Server server = new Server(8081);
         ServletContextHandler handler = new ServletContextHandler(server, "/");
@@ -14,6 +22,13 @@ public class App {
         handler.addServlet(ServletLocalStatistic.class,"/lsf");
         handler.addServlet(ServletWordInFileStatistic.class,"/wsf");
         server.start();
+        App app=new App();
 
+        TestAnnotation anno = app.getClass().getAnnotation(TestAnnotation.class);
+        System.out.println(anno.text());
+
+        EntityGlobalStat gs=new EntityGlobalStat("",0);
+        TableInDB t=new TableInDB();
+        t.createTableIfDoesNotExist(gs);
     }
 }
