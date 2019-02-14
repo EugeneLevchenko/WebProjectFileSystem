@@ -11,7 +11,6 @@ import com.eugene_levchenko.web.embeddedjetty.servlets.*;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 
-
 @TestAnnotation(text = "someText")
 public class App {
 
@@ -24,18 +23,18 @@ public class App {
         handler.addServlet(ServletLocalStatistic.class,"/lsf");
         handler.addServlet(ServletWordInFileStatistic.class,"/wsf");
         server.start();
-        App app=new App();
 
+/*
+        App app=new App();
         TestAnnotation anno = app.getClass().getAnnotation(TestAnnotation.class);
         System.out.println(anno.text());
-
-        //  EntityGlobalStat gs=new EntityGlobalStat("",0);
         EntityAllFilesInDir fs=new EntityAllFilesInDir(3,"");
         EntityGlobalStat gs=new EntityGlobalStat("",3);
         TableCustomHiber t=new TableCustomHiber();
         InsertCustomHiber insert=new InsertCustomHiber();
-       // insert.add("fileOne",a);
         t.createTableIfDoesNotExist(gs);
         System.out.println(app.getClass().getSimpleName());
+
+*/
     }
 }

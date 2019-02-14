@@ -9,8 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DAOImplLocalStat extends DAOBase implements IDAOLocalStatOfFileEntity {
-
+public class DAOImplLocalStat extends DAOBase<EntityLocalStatOfFile,Integer> implements IDAOLocalStatOfFileEntity {
+/*
     @Override
     public List<EntityLocalStatOfFile> getAllById(Integer paramValue) {
         List<EntityLocalStatOfFile> list = new ArrayList<EntityLocalStatOfFile>();
@@ -30,11 +30,7 @@ public class DAOImplLocalStat extends DAOBase implements IDAOLocalStatOfFileEnti
         }
         return list;
     }
-
-    @Override
-    public List<EntityLocalStatOfFile> getAll() throws SQLException {
-        return null;
-    }
+*/
 
     @Override
     public String getFileNameById(int id) throws SQLException {

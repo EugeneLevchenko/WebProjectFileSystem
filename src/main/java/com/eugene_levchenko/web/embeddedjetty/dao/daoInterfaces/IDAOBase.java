@@ -7,5 +7,7 @@ public interface IDAOBase<E,T>  {
 
     List<E> getAllById(T paramValue) throws SQLException;
 
-    List<E> getAll() throws SQLException;
+  //  List<E> getAll() throws SQLException;
+
+   List <E> getAll() throws SQLException;
 }

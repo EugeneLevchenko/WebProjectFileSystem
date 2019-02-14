@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DAOImplWordInFileStat extends DAOBase implements IDAOWordInFileStatEntity {
+public class DAOImplWordInFileStat extends DAOBase<EntityWordInFileStat,String> implements IDAOWordInFileStatEntity {
 
     @Override
     public List<EntityWordInFileStat> getAllById(String paramValue) throws SQLException {
@@ -44,8 +44,5 @@ public class DAOImplWordInFileStat extends DAOBase implements IDAOWordInFileStat
         return list;
     }
 
-    @Override
-    public List<EntityWordInFileStat> getAll() throws SQLException {
-        return null;
-    }
+
 }

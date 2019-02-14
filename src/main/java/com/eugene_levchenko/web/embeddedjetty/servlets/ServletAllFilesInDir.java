@@ -12,10 +12,11 @@ import java.util.List;
 public  class ServletAllFilesInDir extends ServletBaseWithTable {
 
     IDAOAllFilesInDirEntity dao=new DAOImplAllFilesInDir();
+    EntityAllFilesInDir entityAllFilesInDir=new EntityAllFilesInDir(10,"");
 
     public String createTable() throws SQLException {
         String table = "";
-        List<EntityAllFilesInDir> list = dao.getAll();
+        List<EntityAllFilesInDir> list = dao.getAll(entityAllFilesInDir);
 
         for (EntityAllFilesInDir i : list) {
             int id = i.getId();

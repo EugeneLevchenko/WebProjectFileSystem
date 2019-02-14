@@ -16,7 +16,7 @@ public class DAOImplAllFilesInDir extends DAOBase implements IDAOAllFilesInDirEn
     }
 
     @Override
-    public List<EntityAllFilesInDir> getAll() {
+    public List<EntityAllFilesInDir> getAll(EntityAllFilesInDir obj) {
         List<EntityAllFilesInDir> list = new ArrayList<>();
         try {
             String query = "select * from fullnametable order by 1;";

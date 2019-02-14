@@ -15,10 +15,11 @@ import java.util.List;
 public  class ServletGlobalStatistic extends ServletBaseWithTable {
 
      IDAOGlobalStatEntity dao=new DAOImplGlobalStat();
+     EntityGlobalStat egs=new EntityGlobalStat("",4);
 
     public String createTable() throws SQLException {
         String table="";
-        List<EntityGlobalStat> list=dao.getAll();
+        List<EntityGlobalStat> list=dao.getAll(egs);
 
         for (EntityGlobalStat i: list)
         {
