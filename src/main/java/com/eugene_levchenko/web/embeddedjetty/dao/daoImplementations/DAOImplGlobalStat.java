@@ -12,7 +12,7 @@ import java.util.List;
 public class DAOImplGlobalStat extends DAOBase implements IDAOGlobalStatEntity {
 
     @Override
-    public List<EntityGlobalStat> getAllById(String paramValue) throws SQLException {
+    public List<EntityGlobalStat> getAllById(String paramValue)  {
         return null;
     }
 
