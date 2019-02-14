@@ -6,7 +6,7 @@ import com.eugene_levchenko.web.embeddedjetty.annotations.Table;
 import com.eugene_levchenko.web.embeddedjetty.ormController.EDataType;
 
 @Entity
-@Table(name = "table1")
+@Table(name = "filestatistic")
 public class EntityGlobalStat {
 
     @Column(name = "word",type = EDataType.STRING)

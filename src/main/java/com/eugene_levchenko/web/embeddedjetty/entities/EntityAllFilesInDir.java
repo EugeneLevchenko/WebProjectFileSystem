@@ -5,13 +5,15 @@ import com.eugene_levchenko.web.embeddedjetty.annotations.Entity;
 import com.eugene_levchenko.web.embeddedjetty.annotations.Id;
 import com.eugene_levchenko.web.embeddedjetty.annotations.Table;
 import com.eugene_levchenko.web.embeddedjetty.ormController.EDataType;
+import com.eugene_levchenko.web.embeddedjetty.ormController.EGenerationType;
 
 @Entity
 @Table(name = "fullnametable")
 public class EntityAllFilesInDir {
 
-    @Id(name = "id")
+    @Id(name = "id",strategy = EGenerationType.AUTO_INCREMENT)
     private int id;
+
     @Column(name = "fullfilename", type = EDataType.STRING)
     private String nameOfFile;
 

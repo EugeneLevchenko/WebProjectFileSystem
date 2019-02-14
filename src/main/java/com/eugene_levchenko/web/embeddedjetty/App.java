@@ -4,7 +4,9 @@ import com.eugene_levchenko.web.embeddedjetty.annotations.TestAnnotation;
 
 import com.eugene_levchenko.web.embeddedjetty.entities.EntityAllFilesInDir;
 
-import com.eugene_levchenko.web.embeddedjetty.ormController.TableInDB;
+import com.eugene_levchenko.web.embeddedjetty.entities.EntityGlobalStat;
+import com.eugene_levchenko.web.embeddedjetty.ormController.InsertCustomHiber;
+import com.eugene_levchenko.web.embeddedjetty.ormController.TableCustomHiber;
 import com.eugene_levchenko.web.embeddedjetty.servlets.*;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -27,10 +29,13 @@ public class App {
         TestAnnotation anno = app.getClass().getAnnotation(TestAnnotation.class);
         System.out.println(anno.text());
 
-      //  EntityGlobalStat gs=new EntityGlobalStat("",0);
-        EntityAllFilesInDir a=new EntityAllFilesInDir(3,"");
-        TableInDB t=new TableInDB();
-      //  t.isIdPresent()
-        t.createTableIfDoesNotExist(a);
+        //  EntityGlobalStat gs=new EntityGlobalStat("",0);
+        EntityAllFilesInDir fs=new EntityAllFilesInDir(3,"");
+        EntityGlobalStat gs=new EntityGlobalStat("",3);
+        TableCustomHiber t=new TableCustomHiber();
+        InsertCustomHiber insert=new InsertCustomHiber();
+       // insert.add("fileOne",a);
+        t.createTableIfDoesNotExist(gs);
+        System.out.println(app.getClass().getSimpleName());
     }
 }

@@ -18,7 +18,7 @@ public class DAOImplGlobalStat extends DAOBase implements IDAOGlobalStatEntity {
 
     @Override
     public List<EntityGlobalStat> getAll() throws SQLException {
-        List<EntityGlobalStat> list=new ArrayList<EntityGlobalStat>() ;
+        List<EntityGlobalStat> list=new ArrayList<>() ;
         String query="select * from filestatistic order by 1;";
         Statement st=getConnection().createStatement();
         ResultSet res=st.executeQuery(query);

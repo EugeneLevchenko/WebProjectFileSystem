@@ -10,11 +10,11 @@ import java.lang.reflect.Field;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class TableInDB extends DAOBase {
+public class TableCustomHiber extends DAOBase {
 
-    static String[] ARRAY_OF_DATA_TYPES = {"INT","VARCHAR(255)"};
+   private static String[] ARRAY_OF_DATA_TYPES = {"INT","VARCHAR(255)"};
 
-    static String[] ARRAY_OF_GENERATION_ID = {"INT NOT NULL AUTO_INCREMENT","INT"};
+   private static String[] ARRAY_OF_GENERATION_ID = {"INT NOT NULL AUTO_INCREMENT PRIMARY KEY","INT"};
 
     public  <O> void createTableIfDoesNotExist(O obj) throws SQLException {
 
@@ -35,29 +35,26 @@ public class TableInDB extends DAOBase {
         //name and type of column
         Field[] arrOfFields = obj.getClass().getDeclaredFields();
         String queryInfoOfColumns = "";
-      boolean exit=false;
+      boolean idWasFound=false;
         System.out.println(isIdPresent(arrOfFields));
 
         for (int i=0;i<arrOfFields.length;i++)
         {
 
-            if (isIdPresent(arrOfFields)&&!exit)
+            if (isIdPresent(arrOfFields)&&!idWasFound)
             {
-                //name
+
                 Id annotationColumn = arrOfFields[i].getAnnotation(Id.class);
                 //System.out.println(annotationColumn.name());
                 int index= EGenerationType.valueOf(String.valueOf(annotationColumn.strategy())).ordinal();
                 String s= ARRAY_OF_GENERATION_ID[index];
                 queryInfoOfColumns+=annotationColumn.name()+" "+s+",";
-
-               // queryInfoOfColumns="";
-                exit=true;
+                idWasFound=true;
             }
-            if (!exit)
-            {
-                continue;
-            }
-
+          //  if (!idWasFound)
+           // {
+           //     continue;
+         //   }
 
             if (arrOfFields[i].isAnnotationPresent(Column.class))
             {
@@ -72,6 +69,7 @@ public class TableInDB extends DAOBase {
                 System.out.println(queryInfoOfColumns);
             }
         }
+        //delete the last element
         queryInfoOfColumns= queryInfoOfColumns.replaceFirst(".$","");
         System.out.println(queryInfoOfColumns);
         return queryInfoOfColumns;
@@ -89,7 +87,11 @@ public boolean isIdPresent(Field[] arrOfFields)
    return false;
 }
 
+    public static String[] getArrayOfDataTypes() {
+        return ARRAY_OF_DATA_TYPES;
+    }
 
-
-
+    public static String[] getArrayOfGenerationId() {
+        return ARRAY_OF_GENERATION_ID;
+    }
 }
