@@ -1,26 +1,22 @@
 package com.eugene_levchenko.web.embeddedjetty.entities;
 
-import com.eugene_levchenko.web.embeddedjetty.annotations.Column;
-import com.eugene_levchenko.web.embeddedjetty.annotations.Entity;
-import com.eugene_levchenko.web.embeddedjetty.annotations.Id;
-import com.eugene_levchenko.web.embeddedjetty.annotations.Table;
+import com.eugene_levchenko.web.embeddedjetty.annotations.*;
 import com.eugene_levchenko.web.embeddedjetty.ormController.EDataType;
 import com.eugene_levchenko.web.embeddedjetty.ormController.EGenerationType;
 
-       @Entity
-       @Table(name = "fullnametable")
-       public class EntityAllFilesInDir {
+@Entity
+@Table(name = "fullnametable")
+public class EntityAllFilesInDir {
 
-    @Id(name = "id",strategy = EGenerationType.AUTO_INCREMENT)
-    private int id;
+
 
     @Column(name = "fullfilename", type = EDataType.STRING)
     private String nameOfFile;
 
-    public EntityAllFilesInDir(int id, String nameOfFile) {
-        this.id = id;
-        this.nameOfFile = nameOfFile;
-    }
+    @Id(name = "id",strategy = EGenerationType.AUTO_INCREMENT,type = EDataType.INTEGER)
+    private int id;
+
+
 
     @Override
     public String toString() {
@@ -38,10 +34,12 @@ import com.eugene_levchenko.web.embeddedjetty.ormController.EGenerationType;
         return nameOfFile;
     }
 
+    @ColumnSetter(type = EDataType.INTEGER)
     public void setId(int id) {
         this.id = id;
     }
 
+    @ColumnSetter(type = EDataType.STRING)
     public void setNameOfFile(String nameOfFile) {
         this.nameOfFile = nameOfFile;
     }

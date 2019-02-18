@@ -6,17 +6,18 @@ import com.eugene_levchenko.web.embeddedjetty.enums.ENamesOfPages;
 import com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations.DAOImplAllFilesInDir;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.List;
 
 public  class ServletAllFilesInDir extends ServletBaseWithTable {
 
     IDAOAllFilesInDirEntity dao=new DAOImplAllFilesInDir();
-    EntityAllFilesInDir entityAllFilesInDir=new EntityAllFilesInDir(10,"");
+    EntityAllFilesInDir entityAllFilesInDir=new EntityAllFilesInDir();
 
-    public String createTable() throws SQLException {
+    public String createTable() throws SQLException, IllegalAccessException, InstantiationException, InvocationTargetException {
         String table = "";
-        List<EntityAllFilesInDir> list = dao.getAll(entityAllFilesInDir);
+        List<EntityAllFilesInDir> list = dao.getAll();
 
         for (EntityAllFilesInDir i : list) {
             int id = i.getId();
@@ -46,6 +47,12 @@ public  class ServletAllFilesInDir extends ServletBaseWithTable {
                             createTable()+
                             "  </table>");
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
     }

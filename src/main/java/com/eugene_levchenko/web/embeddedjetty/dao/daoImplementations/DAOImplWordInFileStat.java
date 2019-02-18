@@ -38,7 +38,7 @@ public class DAOImplWordInFileStat extends DAOBase<EntityWordInFileStat,String> 
 
         while (rs.next())
         {
-            list.add(new EntityWordInFileStat(rs.getString(1),rs.getInt(2)));
+        //    list.add(new EntityWordInFileStat(rs.getString(1),rs.getInt(2)));
         }
 
         return list;

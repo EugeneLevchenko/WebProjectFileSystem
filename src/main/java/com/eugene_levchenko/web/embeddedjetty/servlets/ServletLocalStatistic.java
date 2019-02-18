@@ -8,12 +8,15 @@ import com.eugene_levchenko.web.embeddedjetty.enums.ENamesOfPages;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 import java.util.List;
 
 public  class ServletLocalStatistic extends ServletBaseWithTableWithParam {
 
-    private IDAOLocalStatOfFileEntity dao=new DAOImplLocalStat();
+    private IDAOLocalStatOfFileEntity dao= new DAOImplLocalStat();
+
+
     private String nameOfParam="id";
     private int id =0;
 

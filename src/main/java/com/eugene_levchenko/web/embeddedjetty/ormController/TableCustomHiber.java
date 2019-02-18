@@ -10,7 +10,7 @@ import java.lang.reflect.Field;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class TableCustomHiber extends DAOBase {
+public abstract class TableCustomHiber extends DAOBase {
 
    private static String[] ARRAY_OF_DATA_TYPES = {"INT","VARCHAR(255)"};
 
@@ -35,7 +35,7 @@ public class TableCustomHiber extends DAOBase {
         //name and type of column
         Field[] arrOfFields = obj.getClass().getDeclaredFields();
         String queryInfoOfColumns = "";
-      boolean idWasFound=false;
+        boolean idWasFound=false;
         System.out.println(isIdPresent(arrOfFields));
 
         for (int i=0;i<arrOfFields.length;i++)

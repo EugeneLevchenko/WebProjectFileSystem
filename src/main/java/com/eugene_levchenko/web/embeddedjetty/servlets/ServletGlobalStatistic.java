@@ -9,17 +9,20 @@ import com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations.DAOImplGlob
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.List;
 
 public  class ServletGlobalStatistic extends ServletBaseWithTable {
 
-     IDAOGlobalStatEntity dao=new DAOImplGlobalStat();
-     EntityGlobalStat egs=new EntityGlobalStat("",4);
+     IDAOGlobalStatEntity dao= new DAOImplGlobalStat();
 
-    public String createTable() throws SQLException {
+
+     EntityGlobalStat egs=new EntityGlobalStat();
+
+    public String createTable() throws SQLException, IllegalAccessException, InstantiationException, InvocationTargetException {
         String table="";
-        List<EntityGlobalStat> list=dao.getAll(egs);
+        List<EntityGlobalStat> list=dao.getAll();
 
         for (EntityGlobalStat i: list)
         {
@@ -38,7 +41,7 @@ public  class ServletGlobalStatistic extends ServletBaseWithTable {
     }
 
     @Override
-    public void renderTable(HttpServletResponse resp) throws IOException, SQLException {
+    public void renderTable(HttpServletResponse resp) throws IOException, SQLException, IllegalAccessException, InvocationTargetException, InstantiationException {
 
         resp.getWriter().println(
                 " <table border=\"1\">\n" +

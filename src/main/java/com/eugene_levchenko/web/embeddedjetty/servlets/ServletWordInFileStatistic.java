@@ -8,6 +8,7 @@ import com.eugene_levchenko.web.embeddedjetty.enums.ENamesOfPages;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 import java.util.List;
 
@@ -15,7 +16,9 @@ public  class ServletWordInFileStatistic extends ServletBaseWithTableWithParam {
 
     private String paramValue="";
     private String nameOfParam="word";
-    private IDAOBase dao=new DAOImplWordInFileStat();
+    private IDAOBase dao= new DAOImplWordInFileStat();
+
+
 
     public String createTable() throws SQLException {
 

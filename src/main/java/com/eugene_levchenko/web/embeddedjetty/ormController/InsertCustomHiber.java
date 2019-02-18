@@ -6,8 +6,10 @@ import com.eugene_levchenko.web.embeddedjetty.annotations.Table;
 import com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations.DAOBase;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 
 public class InsertCustomHiber extends DAOBase {
 
@@ -43,5 +45,6 @@ public class InsertCustomHiber extends DAOBase {
         preparedStmt.setString (1, (String) data);
         preparedStmt.execute();
     }
+
 
 }
