@@ -1,6 +1,7 @@
 package com.eugene_levchenko.web.embeddedjetty.entities;
 
-import com.eugene_levchenko.web.embeddedjetty.annotations.ColumnSetter;
+import com.eugene_levchenko.web.embeddedjetty.annotations.Getter;
+import com.eugene_levchenko.web.embeddedjetty.annotations.Setter;
 import com.eugene_levchenko.web.embeddedjetty.ormController.EDataType;
 
 public class EntityWordInFileStat {
@@ -16,19 +17,22 @@ public class EntityWordInFileStat {
                 '}';
     }
 
+    @Getter(type = EDataType.STRING)
     public String getNameOfFile() {
         return nameOfFile;
     }
 
+    @Getter(type = EDataType.INTEGER)
     public int getValue() {
         return value;
     }
-    @ColumnSetter(type = EDataType.INTEGER)
+
+    @Setter(type = EDataType.INTEGER)
     public void setNameOfFile(String nameOfFile) {
         this.nameOfFile = nameOfFile;
     }
 
-    @ColumnSetter(type = EDataType.INTEGER)
+    @Setter(type = EDataType.INTEGER)
     public void setValue(int value) {
         this.value = value;
     }

@@ -18,7 +18,7 @@ public  class ServletGlobalStatistic extends ServletBaseWithTable {
      IDAOGlobalStatEntity dao= new DAOImplGlobalStat();
 
 
-     EntityGlobalStat egs=new EntityGlobalStat();
+    // EntityGlobalStat egs=new EntityGlobalStat();
 
     public String createTable() throws SQLException, IllegalAccessException, InstantiationException, InvocationTargetException {
         String table="";

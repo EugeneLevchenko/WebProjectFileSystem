@@ -1,9 +1,6 @@
 package com.eugene_levchenko.web.embeddedjetty.entities;
 
-import com.eugene_levchenko.web.embeddedjetty.annotations.Column;
-import com.eugene_levchenko.web.embeddedjetty.annotations.ColumnSetter;
-import com.eugene_levchenko.web.embeddedjetty.annotations.Entity;
-import com.eugene_levchenko.web.embeddedjetty.annotations.Table;
+import com.eugene_levchenko.web.embeddedjetty.annotations.*;
 import com.eugene_levchenko.web.embeddedjetty.ormController.EDataType;
 
 @Entity
@@ -16,16 +13,16 @@ public class EntityGlobalStat {
     @Column(name = "value",type = EDataType.INTEGER)
     public int value;
 
+    @Setter(type = EDataType.INTEGER)
+    public void setValue(int value) {
+        this.value = value;
+    }
 
-@ColumnSetter(type = EDataType.STRING)
+    @Setter(type = EDataType.STRING)
     public void setWord(String word) {
         this.word = word;
     }
 
-    @ColumnSetter(type = EDataType.INTEGER)
-    public void setValue(int value) {
-        this.value = value;
-    }
 
     @Override
     public String toString() {
@@ -33,11 +30,11 @@ public class EntityGlobalStat {
                 "word='" + word + '\'' + ", value=" + value +
                 '}';
     }
-
+@Getter(type = EDataType.STRING)
     public String getWord() {
         return word;
     }
-
+    @Getter(type = EDataType.INTEGER)
     public int getValue() {
         return value;
     }

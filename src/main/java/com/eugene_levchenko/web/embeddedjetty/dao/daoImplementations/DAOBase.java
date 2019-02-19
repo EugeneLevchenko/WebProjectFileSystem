@@ -1,10 +1,8 @@
 package com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations;
 
-import com.eugene_levchenko.web.embeddedjetty.annotations.Column;
-import com.eugene_levchenko.web.embeddedjetty.annotations.ColumnSetter;
-import com.eugene_levchenko.web.embeddedjetty.annotations.Id;
-import com.eugene_levchenko.web.embeddedjetty.annotations.Table;
+import com.eugene_levchenko.web.embeddedjetty.annotations.*;
 import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOBase;
+import com.eugene_levchenko.web.embeddedjetty.ormController.EDataType;
 
 import java.lang.reflect.*;
 import java.sql.*;
@@ -12,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class DAOBase<E,T> implements IDAOBase<E,T> {
-
 
     @SuppressWarnings("unchecked")
     private Class<E> getGenericTypeClass() {
@@ -42,7 +39,6 @@ public abstract class DAOBase<E,T> implements IDAOBase<E,T> {
         return null;
     }
 
-
     public List<E> getAll() throws SQLException, IllegalAccessException, InvocationTargetException, InstantiationException {
         List<E> list=new ArrayList<>();
         Class<E>  entityClass=getGenericTypeClass();
@@ -52,13 +48,33 @@ public abstract class DAOBase<E,T> implements IDAOBase<E,T> {
         list.clear();
         System.out.println("after clear: "+list);
 
-        //init arrays
-
         Constructor constructors[]=entityClass.getDeclaredConstructors();
         Constructor constructorByDefault=constructors[0];
 
+        Field[] fields= entityClass.getDeclaredFields();
+        Field[] annotatedFields=new Field[fields.length];
+        int lengthOfFields=0;
+        for (int i=0;i<fields.length;i++)
+        {
+            if (fields[i].isAnnotationPresent(Column.class)||fields[i].isAnnotationPresent(Id.class))
+            {
+                annotatedFields[lengthOfFields]=fields[i];
+                lengthOfFields++;
+            }
+        }
+
         Method[] allMethods=entityClass.getDeclaredMethods();
-        System.out.println(allMethods);
+        Method[] getters=new Method[allMethods.length];
+        int lengthGetters=0;
+
+        for (int i=0;i<allMethods.length;i++)
+        {
+            if (isGetter(allMethods[i]))
+            {
+                getters[lengthGetters]=allMethods[i];
+                lengthGetters++;
+            }
+        }
 
         Method[] setters=new Method[allMethods.length];
         int lengthSetters=0;
@@ -72,19 +88,21 @@ public abstract class DAOBase<E,T> implements IDAOBase<E,T> {
             }
         }
 
-        for (int i=0;i<lengthSetters;i++)
+        DAODescriptionColumn[] descrOfColumn=new DAODescriptionColumn[lengthOfFields];
+
+        for (int i=0;i<annotatedFields.length;i++)
         {
-            Object[] arrayOfParams=  setters[i].getParameterTypes();
+            Column column=annotatedFields[i].getAnnotation(Column.class);
+            int index=getSettersIndex(annotatedFields,i,setters);
+            DAODescriptionColumn columnObj=  new DAODescriptionColumn(column.name(),annotatedFields[i].getName(),
+                    getters[index],setters[index],column.type());
+            descrOfColumn[i]=columnObj;
         }
 
         while (res.next())
         {
-            E entity=null;
-            entity=  initObj(res,constructorByDefault,setters,lengthSetters);
+            E entity=initObj(res,constructorByDefault,setters,descrOfColumn);
             list.add(entity);
-            //  System.out.println(obj);
-            // list.add((E) obj);
-            //list.add(new EntityGlobalStat(res.getString(1),res.getInt(2)));
         }
 
         return list;
@@ -94,64 +112,38 @@ public abstract class DAOBase<E,T> implements IDAOBase<E,T> {
         return Modifier.isPublic(method.getModifiers()) &&
                 method.getReturnType().equals(void.class) &&
                 method.getParameterTypes().length == 1 &&
-                method.getName().matches("^set[A-Z].*") &&
-                method.isAnnotationPresent(ColumnSetter.class);
+                //  method.getName().matches("^set[A-Z].*") &&
+                method.getName().startsWith("set") &&
+                method.isAnnotationPresent(Setter.class);
     }
 
-    private E initObj(ResultSet res,Constructor constructorByDefault, Method[] setters,int lengthSetters) throws IllegalAccessException, InvocationTargetException, InstantiationException, SQLException {
+    private static boolean isGetter(Method method) {
+        return Modifier.isPublic(method.getModifiers()) &&
+                !method.getReturnType().equals(void.class) &&
+                method.getParameterTypes().length == 0 &&
+                //  method.getName().matches("^set[A-Z].*") &&
+                method.getName().startsWith("get") &&
+                method.isAnnotationPresent(Getter.class);
+    }
+
+    private E initObj(ResultSet res,Constructor constructorByDefault, Method[] setters, DAODescriptionColumn[] descrOfColumn) throws IllegalAccessException, InvocationTargetException, InstantiationException, SQLException
+    {
         Object obj= constructorByDefault.newInstance();
-
-        // Class[] parameterTypes = setters[0].getParameterTypes();
-        Field[] arrOfFields= obj.getClass().getDeclaredFields();
-        //  if ( setters[0].getParameterTypes())
-
-        //  if (arrOfFields[0].getType().isAssignableFrom(myType))
-
-        for (int i=0;i<arrOfFields.length;i++)
+        for (int i=0;i<descrOfColumn.length;i++)
         {
-            Column typeOfField = arrOfFields[i].getAnnotation(Column.class);
-            System.out.println("type of field= "+typeOfField.type());
-            for (int z=0;z<lengthSetters;z++)
-            {
-                ColumnSetter typeOfSetter = setters[z].getAnnotation(ColumnSetter.class);
-                System.out.println("type of setter= "+typeOfSetter.type());
-                 if (typeOfField.type().ordinal()==typeOfSetter.type().ordinal())
-                 {
-                     System.out.println("d");
-                     setters[z].invoke(obj,res.getString(1));
+            EDataType dataType=descrOfColumn[i].getDataType();
+         int index= getSettersIndex(descrOfColumn,i,setters);
 
-                 }
-            }
-
-            //Column ta = arrOfFields[i].getAnnotation(Column.class);
-          //  System.out.println(ta.type());
-
-
-
-
-/*
-            for (int x=0;x<lengthSetters;x++)
-            {
-                Class[] typeOfSetter = setters[x].getParameterTypes();
-                typeOfSetter[0].getTypeName();
-
-                System.out.println("type of setter= "+typeOfSetter[0].getTypeName());
-                System.out.println("type of field= "+arrOfFields[i].getType().getTypeName());
-                if (arrOfFields[i].getType().equals(typeOfSetter[0]))
-                {
-                    System.out.println("suit");
-                    setters[x].invoke(obj,res.getInt(2));
-                   // setters[x].invoke(obj,res.getString(1));
+            switch (dataType) {
+                case INTEGER:
+                    setters[index].invoke(obj,res.getInt(i+1));
                     break;
-
-
-                }
+                case STRING:
+                    setters[index].invoke(obj,res.getString(i+1));
+                    break;
             }
-//
-*/
+
         }
-        setters[0].invoke(obj,res.getInt(2));
-        setters[1].invoke(obj,res.getString(1));
 
         return (E) obj;
     }
@@ -176,7 +168,6 @@ public abstract class DAOBase<E,T> implements IDAOBase<E,T> {
                 result+=annotationColumn.name()+",";
             }
         }
-        //  result=result.replaceFirst(".$","");
         result=result.substring(0, result.length() - 1);
         System.out.println("select= "+result);
         return result;
@@ -184,19 +175,37 @@ public abstract class DAOBase<E,T> implements IDAOBase<E,T> {
 
     private String getSelectQuery(Class<E> clazz)
     {
-        //return null;
-
         Table anno = clazz.getAnnotation(Table.class);
         String tableName=anno.name();
         String query="select "+getListOfColumns(clazz)+" from "+tableName+" order by 1;";
         return query;
-
     }
 
-    private int getColumnIndex()
+    private int getSettersIndex(DAODescriptionColumn[] descrOfColumn, int index, Method[] setters)
     {
-        return 0;
+        String fieldName= descrOfColumn[index].getFieldName().toLowerCase();
+        for (int i=0;i<setters.length;i++)
+        {
+            String nameSetter=setters[i].getName().substring(3).toLowerCase();
+            if (nameSetter.equals(fieldName))
+            {
+                return i;
+            }
+        }
+        return -1;
     }
 
-
+    private int getSettersIndex(Field[] arr, int index, Method[] setters)
+    {
+        String fieldName= arr[index].getName().toLowerCase();
+        for (int i=0;i<setters.length;i++)
+        {
+            String nameSetter=setters[i].getName().substring(3).toLowerCase();
+            if (nameSetter.equals(fieldName))
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
 }
