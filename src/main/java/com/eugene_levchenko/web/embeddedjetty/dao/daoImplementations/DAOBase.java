@@ -3,7 +3,6 @@ package com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations;
 import com.eugene_levchenko.web.embeddedjetty.annotations.*;
 import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOBase;
 import com.eugene_levchenko.web.embeddedjetty.ormController.EDataType;
-
 import java.lang.reflect.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,17 +10,28 @@ import java.util.List;
 
 public abstract class DAOBase<E,T> implements IDAOBase<E,T> {
 
+    private static Class<?> ENTITY_CLASS;
+
     @SuppressWarnings("unchecked")
     private Class<E> getGenericTypeClass() {
+        if (ENTITY_CLASS!=null)
+        {
+            ENTITY_CLASS=null;
+           // return (Class<E>) ENTITY_CLASS;
+        }
         try {
-            String className = ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0].getTypeName();
-            Class<?> clazz = Class.forName(className);
-            return (Class<E>) clazz;
+            synchronized (this) {
+               if (ENTITY_CLASS != null) {
+                    return (Class<E>) ENTITY_CLASS;
+                }
+                String className = ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0].getTypeName();
+                ENTITY_CLASS = Class.forName(className);
+            }
+            return (Class<E>) ENTITY_CLASS;
         } catch (Exception e) {
             throw new IllegalStateException("Class is not parametrized with generic type!!! Please use extends <> ");
         }
     }
-
     //customhiberdb
     //webprojectfilesystemdb
 
@@ -40,19 +50,18 @@ public abstract class DAOBase<E,T> implements IDAOBase<E,T> {
     }
 
     public List<E> getAll() throws SQLException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        List<E> list=new ArrayList<>();
+
         Class<E>  entityClass=getGenericTypeClass();
 
         Statement st=getConnection().createStatement();
         ResultSet res=st.executeQuery(getSelectQuery(entityClass ));
-        list.clear();
-        System.out.println("after clear: "+list);
 
         Constructor constructors[]=entityClass.getDeclaredConstructors();
         Constructor constructorByDefault=constructors[0];
 
         Field[] fields= entityClass.getDeclaredFields();
         Field[] annotatedFields=new Field[fields.length];
+
         int lengthOfFields=0;
         for (int i=0;i<fields.length;i++)
         {
@@ -88,7 +97,7 @@ public abstract class DAOBase<E,T> implements IDAOBase<E,T> {
             }
         }
 
-        DAODescriptionColumn[] descrOfColumn=new DAODescriptionColumn[lengthOfFields];
+        DAODescriptionColumn[] descriptionOfColumn=new DAODescriptionColumn[lengthOfFields];
 
         for (int i=0;i<annotatedFields.length;i++)
         {
@@ -96,12 +105,12 @@ public abstract class DAOBase<E,T> implements IDAOBase<E,T> {
             int index=getSettersIndex(annotatedFields,i,setters);
             DAODescriptionColumn columnObj=  new DAODescriptionColumn(column.name(),annotatedFields[i].getName(),
                     getters[index],setters[index],column.type());
-            descrOfColumn[i]=columnObj;
+            descriptionOfColumn[i]=columnObj;
         }
-
+        List<E> list=new ArrayList<>();
         while (res.next())
         {
-            E entity=initObj(res,constructorByDefault,setters,descrOfColumn);
+            E entity=initObj(res,constructorByDefault,descriptionOfColumn);
             list.add(entity);
         }
 
@@ -126,25 +135,22 @@ public abstract class DAOBase<E,T> implements IDAOBase<E,T> {
                 method.isAnnotationPresent(Getter.class);
     }
 
-    private E initObj(ResultSet res,Constructor constructorByDefault, Method[] setters, DAODescriptionColumn[] descrOfColumn) throws IllegalAccessException, InvocationTargetException, InstantiationException, SQLException
+    private E initObj(ResultSet res,Constructor constructorByDefault, DAODescriptionColumn[] descriptionOfColumn) throws IllegalAccessException, InvocationTargetException, InstantiationException, SQLException
     {
         Object obj= constructorByDefault.newInstance();
-        for (int i=0;i<descrOfColumn.length;i++)
+        for (int i=0;i<descriptionOfColumn.length;i++)
         {
-            EDataType dataType=descrOfColumn[i].getDataType();
-         int index= getSettersIndex(descrOfColumn,i,setters);
-
+            EDataType dataType=descriptionOfColumn[i].getDataType();
+              Method setter=descriptionOfColumn[i].getSetter();
             switch (dataType) {
                 case INTEGER:
-                    setters[index].invoke(obj,res.getInt(i+1));
+                    setter.invoke(obj,res.getInt(i+1));
                     break;
                 case STRING:
-                    setters[index].invoke(obj,res.getString(i+1));
+                    setter.invoke(obj,res.getString(i+1));
                     break;
             }
-
         }
-
         return (E) obj;
     }
 
@@ -169,7 +175,6 @@ public abstract class DAOBase<E,T> implements IDAOBase<E,T> {
             }
         }
         result=result.substring(0, result.length() - 1);
-        System.out.println("select= "+result);
         return result;
     }
 
@@ -181,26 +186,14 @@ public abstract class DAOBase<E,T> implements IDAOBase<E,T> {
         return query;
     }
 
-    private int getSettersIndex(DAODescriptionColumn[] descrOfColumn, int index, Method[] setters)
-    {
-        String fieldName= descrOfColumn[index].getFieldName().toLowerCase();
-        for (int i=0;i<setters.length;i++)
-        {
-            String nameSetter=setters[i].getName().substring(3).toLowerCase();
-            if (nameSetter.equals(fieldName))
-            {
-                return i;
-            }
-        }
-        return -1;
-    }
-
     private int getSettersIndex(Field[] arr, int index, Method[] setters)
     {
-        String fieldName= arr[index].getName().toLowerCase();
+        String fieldName= arr[index].getName();
         for (int i=0;i<setters.length;i++)
         {
-            String nameSetter=setters[i].getName().substring(3).toLowerCase();
+            String nameSetter=setters[i].getName().substring(3);
+            nameSetter = Character.toLowerCase(nameSetter.charAt(0)) + nameSetter.substring(1);
+
             if (nameSetter.equals(fieldName))
             {
                 return i;
