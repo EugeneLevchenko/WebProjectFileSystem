@@ -13,12 +13,10 @@ public class EntityGlobalStat {
     @Column(name = "value",type = EDataType.INTEGER)
     public int value;
 
-    @Setter(type = EDataType.INTEGER)
     public void setValue(int value) {
         this.value = value;
     }
 
-    @Setter(type = EDataType.STRING)
     public void setWord(String word) {
         this.word = word;
     }
@@ -30,11 +28,10 @@ public class EntityGlobalStat {
                 "word='" + word + '\'' + ", value=" + value +
                 '}';
     }
-@Getter(type = EDataType.STRING)
+
     public String getWord() {
         return word;
     }
-    @Getter(type = EDataType.INTEGER)
     public int getValue() {
         return value;
     }

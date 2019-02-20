@@ -122,8 +122,7 @@ public abstract class DAOBase<E,T> implements IDAOBase<E,T> {
                 method.getReturnType().equals(void.class) &&
                 method.getParameterTypes().length == 1 &&
                 //  method.getName().matches("^set[A-Z].*") &&
-                method.getName().startsWith("set") &&
-                method.isAnnotationPresent(Setter.class);
+                method.getName().startsWith("set");
     }
 
     private static boolean isGetter(Method method) {
@@ -131,8 +130,7 @@ public abstract class DAOBase<E,T> implements IDAOBase<E,T> {
                 !method.getReturnType().equals(void.class) &&
                 method.getParameterTypes().length == 0 &&
                 //  method.getName().matches("^set[A-Z].*") &&
-                method.getName().startsWith("get") &&
-                method.isAnnotationPresent(Getter.class);
+                method.getName().startsWith("get");
     }
 
     private E initObj(ResultSet res,Constructor constructorByDefault, DAODescriptionColumn[] descriptionOfColumn) throws IllegalAccessException, InvocationTargetException, InstantiationException, SQLException
