@@ -9,6 +9,10 @@ import java.util.List;
 
 public class DAOImplWordInFileStat extends DAOBase<EntityWordInFileStat,String> implements IDAOWordInFileStatEntity {
 
+    public DAOImplWordInFileStat() {
+        super(EntityWordInFileStat.class);
+    }
+
     @Override
     public List<EntityWordInFileStat> getAllById(String paramValue) throws SQLException {
         List<EntityWordInFileStat> list = new ArrayList<EntityWordInFileStat>();

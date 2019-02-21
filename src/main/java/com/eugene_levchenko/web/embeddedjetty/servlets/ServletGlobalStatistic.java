@@ -1,12 +1,9 @@
 package com.eugene_levchenko.web.embeddedjetty.servlets;
 
-import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOBase;
-
 import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOGlobalStatEntity;
 import com.eugene_levchenko.web.embeddedjetty.entities.EntityGlobalStat;
 import com.eugene_levchenko.web.embeddedjetty.enums.ENamesOfPages;
 import com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations.DAOImplGlobalStat;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -16,9 +13,6 @@ import java.util.List;
 public  class ServletGlobalStatistic extends ServletBaseWithTable {
 
      IDAOGlobalStatEntity dao= new DAOImplGlobalStat();
-
-
-    // EntityGlobalStat egs=new EntityGlobalStat();
 
     public String createTable() throws SQLException, IllegalAccessException, InstantiationException, InvocationTargetException {
         String table="";

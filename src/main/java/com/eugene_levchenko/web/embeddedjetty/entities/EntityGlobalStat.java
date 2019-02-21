@@ -1,7 +1,7 @@
 package com.eugene_levchenko.web.embeddedjetty.entities;
 
 import com.eugene_levchenko.web.embeddedjetty.annotations.*;
-import com.eugene_levchenko.web.embeddedjetty.ormController.EDataType;
+import com.eugene_levchenko.web.embeddedjetty.enums.EDataType;
 
 @Entity
 @Table(name = "filestatistic")

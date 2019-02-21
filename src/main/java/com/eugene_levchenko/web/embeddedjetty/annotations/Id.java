@@ -1,7 +1,7 @@
 package com.eugene_levchenko.web.embeddedjetty.annotations;
 
-import com.eugene_levchenko.web.embeddedjetty.ormController.EDataType;
-import com.eugene_levchenko.web.embeddedjetty.ormController.EGenerationType;
+import com.eugene_levchenko.web.embeddedjetty.enums.EDataType;
+import com.eugene_levchenko.web.embeddedjetty.enums.EGenerationType;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

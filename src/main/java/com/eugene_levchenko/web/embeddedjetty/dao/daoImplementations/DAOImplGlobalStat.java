@@ -12,4 +12,7 @@ import java.util.List;
 
 public class DAOImplGlobalStat extends DAOBase<EntityGlobalStat,String> implements IDAOGlobalStatEntity {
 
+    public DAOImplGlobalStat() {
+        super(EntityGlobalStat.class);
+    }
 }

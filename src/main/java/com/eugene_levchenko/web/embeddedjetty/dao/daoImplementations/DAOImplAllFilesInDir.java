@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 // custom hiber
 public class DAOImplAllFilesInDir extends DAOBase<EntityAllFilesInDir,Integer> implements IDAOAllFilesInDirEntity {
+    public DAOImplAllFilesInDir() {
+        super(EntityAllFilesInDir.class);
+    }
+
     @Override
     public List<EntityAllFilesInDir> getAllById(Integer paramValue) throws SQLException {
         return null;

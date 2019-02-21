@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DAOImplLocalStat extends DAOBase<EntityLocalStatOfFile,Integer> implements IDAOLocalStatOfFileEntity {
+    public DAOImplLocalStat() {
+        super(EntityLocalStatOfFile.class);
+    }
 /*
     @Override
     public List<EntityLocalStatOfFile> getAllById(Integer paramValue) {

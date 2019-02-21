@@ -1,6 +1,6 @@
 package com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations;
 
-import com.eugene_levchenko.web.embeddedjetty.ormController.EDataType;
+import com.eugene_levchenko.web.embeddedjetty.enums.EDataType;
 
 import java.lang.reflect.Method;
 

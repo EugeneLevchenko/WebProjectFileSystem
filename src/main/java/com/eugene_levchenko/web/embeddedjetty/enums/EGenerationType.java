@@ -1,4 +1,4 @@
-package com.eugene_levchenko.web.embeddedjetty.ormController;
+package com.eugene_levchenko.web.embeddedjetty.enums;
 
 public enum EGenerationType {
 
