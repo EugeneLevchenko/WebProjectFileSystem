@@ -3,6 +3,7 @@ package com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations;
 import com.eugene_levchenko.web.embeddedjetty.annotations.Column;
 import com.eugene_levchenko.web.embeddedjetty.annotations.Id;
 import com.eugene_levchenko.web.embeddedjetty.annotations.Table;
+import com.eugene_levchenko.web.embeddedjetty.sax.SaxHandler;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -107,9 +108,13 @@ public class DAODescriptionEntity {
     public String getSelectQuery(Class<?> clazz)
     {
         String query="select "+getListOfColumns(clazz)+" from "+getTableName()+" order by 1;";
+        if (SaxHandler.enableLogging())
+        {
+            System.out.println("ORM : "+query);
+            System.out.println();
+        }
 
-        System.out.println("ORM : "+query);
-        System.out.println();
+
         return query;
     }
 
