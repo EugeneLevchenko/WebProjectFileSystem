@@ -1,8 +1,19 @@
 package com.eugene_levchenko.web.embeddedjetty.entities;
 
+
+import com.eugene_levchenko.web.embeddedjetty.annotations.Column;
+import com.eugene_levchenko.web.embeddedjetty.annotations.Entity;
+import com.eugene_levchenko.web.embeddedjetty.annotations.Table;
+import com.eugene_levchenko.web.embeddedjetty.enums.EDataType;
+
+@Entity
+@Table(name = "localstatistic")
 public class EntityLocalStatOfFile {
 
+
+    @Column(name = "word",type = EDataType.STRING)
    private String word;
+    @Column(name = "value",type = EDataType.INTEGER)
    private int value;
 
 

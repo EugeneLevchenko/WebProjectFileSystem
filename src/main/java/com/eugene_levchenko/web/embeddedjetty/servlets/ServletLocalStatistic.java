@@ -20,7 +20,7 @@ public  class ServletLocalStatistic extends ServletBaseWithTableWithParam {
     private String nameOfParam="id";
     private int id =0;
 
-    public String createTable() throws SQLException {
+    public String createTable() throws SQLException, IllegalAccessException, InvocationTargetException, InstantiationException {
         List<EntityLocalStatOfFile> list=dao.getAllById(id);
         String table="";
 
@@ -37,11 +37,11 @@ public  class ServletLocalStatistic extends ServletBaseWithTableWithParam {
 
     @Override
     protected ENamesOfPages getExcludedMenuItem() {
-        return ENamesOfPages.LOCAL_STATISTIC;
+        return ENamesOfPages.ALL_ITEMS;
     }
 
 @Override
-    public void renderTable(HttpServletResponse resp,HttpServletRequest req) throws IOException {
+    public void renderTable(HttpServletResponse resp,HttpServletRequest req) throws IOException, IllegalAccessException, InstantiationException, InvocationTargetException {
         try {
           id = Integer.parseInt( getParam(req,nameOfParam));
             System.out.println(id);

@@ -33,7 +33,6 @@ public abstract class DAOBase<E,T> implements IDAOBase<E,T> {
     public DAOBase(Class<E> classz) {
         this.classz = classz;
         populateEntityMetadata();
-
     }
 
     //customhiberdb
@@ -48,14 +47,29 @@ public abstract class DAOBase<E,T> implements IDAOBase<E,T> {
         return connection;
     }
 
-    @Override
-    public List getAllById(T paramValue) throws SQLException {
-        return null;
+    public List<E> getAllById(T paramValue) throws SQLException, IllegalAccessException, InstantiationException, InvocationTargetException {
+
+        PreparedStatement preparedStatement = getConnection().prepareStatement(map.get(classz).getSelectQueryGetAllById(classz));
+        preparedStatement.setInt(1, Integer.parseInt((String.valueOf(paramValue))));
+        ResultSet res = preparedStatement.executeQuery();
+
+        List<E> list=new ArrayList<>();
+        DAODescriptionEntity daoDescriptionEntity=map.get(classz);
+        Constructor constructor=daoDescriptionEntity.getConstructor();
+        DAODescriptionColumn[] descriptionOfColumn = daoDescriptionEntity.getDescrOfColumn();
+
+        while (res.next())
+        {
+            E entity=initObj(res,constructor,descriptionOfColumn);
+            list.add(entity);
+        }
+        return list;
+
     }
 
     public List<E> getAll() throws SQLException, IllegalAccessException, InvocationTargetException, InstantiationException {
         Statement st=getConnection().createStatement();
-        ResultSet res=st.executeQuery(map.get(classz).getSelectQuery(classz));
+        ResultSet res=st.executeQuery(map.get(classz).getSelectQueryGetAll(classz));
 
         List<E> list=new ArrayList<>();
         DAODescriptionEntity daoDescriptionEntity=map.get(classz);

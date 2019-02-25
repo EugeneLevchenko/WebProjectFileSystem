@@ -13,7 +13,6 @@ import java.util.List;
 public  class ServletAllFilesInDir extends ServletBaseWithTable {
 
     IDAOAllFilesInDirEntity dao=new DAOImplAllFilesInDir();
-    EntityAllFilesInDir entityAllFilesInDir=new EntityAllFilesInDir();
 
     public String createTable() throws SQLException, IllegalAccessException, InstantiationException, InvocationTargetException {
         String table = "";
@@ -31,7 +30,7 @@ public  class ServletAllFilesInDir extends ServletBaseWithTable {
 
     @Override
     protected ENamesOfPages getExcludedMenuItem() {
-        return ENamesOfPages.ALL_ITEMS;
+        return ENamesOfPages.LOCAL_STATISTIC;
     }
 
     @Override

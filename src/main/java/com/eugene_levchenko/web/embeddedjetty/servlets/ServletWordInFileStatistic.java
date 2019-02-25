@@ -20,7 +20,7 @@ public  class ServletWordInFileStatistic extends ServletBaseWithTableWithParam {
 
 
 
-    public String createTable() throws SQLException {
+    public String createTable() throws SQLException, IllegalAccessException, InvocationTargetException, InstantiationException {
 
         String table="";
         List<EntityWordInFileStat> list=dao.getAllById(paramValue);
@@ -38,7 +38,7 @@ public  class ServletWordInFileStatistic extends ServletBaseWithTableWithParam {
     }
 
 @Override
-    public void renderTable(HttpServletResponse resp, HttpServletRequest req) throws IOException, SQLException {
+    public void renderTable(HttpServletResponse resp, HttpServletRequest req) throws IOException, SQLException, IllegalAccessException, InstantiationException, InvocationTargetException {
         paramValue= (String) getParam(req,nameOfParam);
         resp.getWriter().println(
                 " <table border=\"1\">\n" +

@@ -3,12 +3,9 @@ package com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations;
 import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOLocalStatOfFileEntity;
 import com.eugene_levchenko.web.embeddedjetty.entities.EntityLocalStatOfFile;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class DAOImplLocalStat extends DAOBase<EntityLocalStatOfFile,Integer> implements IDAOLocalStatOfFileEntity {
     public DAOImplLocalStat() {

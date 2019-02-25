@@ -1,6 +1,7 @@
 package com.eugene_levchenko.web.embeddedjetty.sax;
 
 public class Logging {
+
     private String logging;
 
     public String getLogging() {

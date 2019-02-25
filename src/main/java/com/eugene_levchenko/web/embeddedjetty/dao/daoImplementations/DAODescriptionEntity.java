@@ -105,7 +105,7 @@ public class DAODescriptionEntity {
         return descrOfColumn;
     }
 
-    public String getSelectQuery(Class<?> clazz)
+    public String getSelectQueryGetAll(Class<?> clazz)
     {
         String query="select "+getListOfColumns(clazz)+" from "+getTableName()+" order by 1;";
         if (SaxHandler.enableLogging())
@@ -113,8 +113,17 @@ public class DAODescriptionEntity {
             System.out.println("ORM : "+query);
             System.out.println();
         }
+        return query;
+    }
 
-
+    public String getSelectQueryGetAllById(Class<?> clazz)
+    {
+        String query="select "+getListOfColumns(clazz)+" from "+getTableName()+" where file_id=?";
+        if (SaxHandler.enableLogging())
+        {
+            System.out.println("ORM : "+query);
+            System.out.println();
+        }
         return query;
     }
 
