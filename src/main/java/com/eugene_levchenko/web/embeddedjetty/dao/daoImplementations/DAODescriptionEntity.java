@@ -3,6 +3,7 @@ package com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations;
 import com.eugene_levchenko.web.embeddedjetty.annotations.Column;
 import com.eugene_levchenko.web.embeddedjetty.annotations.Id;
 import com.eugene_levchenko.web.embeddedjetty.annotations.Table;
+import com.eugene_levchenko.web.embeddedjetty.enums.EDataType;
 import com.eugene_levchenko.web.embeddedjetty.sax.SaxHandler;
 
 import java.lang.reflect.Constructor;
@@ -11,20 +12,57 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
 public class DAODescriptionEntity {
-    private Class<?> classz;
+
 
     public DAODescriptionEntity(Class<?> classz) {
         this.classz=classz;
         setDescrOfColumn();
         setTableName(classz);
         setConstructor(classz);
+        setIdName(classz);
+        setTypeOfId(classz);
     }
 
+    private Class<?> classz;
     private DAODescriptionColumn[] descrOfColumn;
-
     private String tableName;
-
     private Constructor constructorEntity;
+    private String idName;
+    private EDataType typeOfId;
+
+
+    public EDataType getTypeOfId() {
+        return typeOfId;
+    }
+
+    public void setTypeOfId(Class<?> classz) {
+
+        Field[] fields=classz.getDeclaredFields();
+        for (Field f:fields)
+        {
+            Id id=f.getDeclaredAnnotation(Id.class);
+            if (id!=null)
+            {
+                this.typeOfId = id.type();
+            }
+        }
+    }
+
+    public String getIdName() {
+        return idName;
+    }
+
+    public void setIdName(Class<?> classz) {
+         Field[] fields=classz.getDeclaredFields();
+         for (Field f:fields)
+         {
+             Id id=f.getDeclaredAnnotation(Id.class);
+             if (id!=null)
+             {
+                 this.idName = id.name();
+             }
+         }
+    }
 
     private void setConstructor(Class<?> classz)
     {
@@ -47,7 +85,7 @@ public class DAODescriptionEntity {
         for (int i=0;i<fields.length;i++)
         {
             Field field=fields[i];
-            if (field.isAnnotationPresent(Column.class)||field.isAnnotationPresent(Id.class))
+            if (field.isAnnotationPresent(Column.class)||(field.isAnnotationPresent(Column.class)&&field.isAnnotationPresent(Id.class)))
             {
                 annotatedFields[lengthOfFields]=fields[i];
                 lengthOfFields++;
@@ -81,7 +119,7 @@ public class DAODescriptionEntity {
 
         descrOfColumn=new DAODescriptionColumn[lengthOfFields];
 
-        for (int i=0;i<annotatedFields.length;i++)
+        for (int i=0;i<lengthOfFields;i++)
         {
             Column column=annotatedFields[i].getAnnotation(Column.class);
             int index=getSettersIndex(annotatedFields,i,setters);
@@ -107,7 +145,7 @@ public class DAODescriptionEntity {
 
     public String getSelectQueryGetAll(Class<?> clazz)
     {
-        String query="select "+getListOfColumns(clazz)+" from "+getTableName()+" order by 1;";
+        String query="select "+getListOfColumns(clazz)+" from "+getTableName()+";";
         if (SaxHandler.enableLogging())
         {
             System.out.println("ORM : "+query);
@@ -118,7 +156,7 @@ public class DAODescriptionEntity {
 
     public String getSelectQueryGetAllById(Class<?> clazz)
     {
-        String query="select "+getListOfColumns(clazz)+" from "+getTableName()+" where file_id=?";
+        String query="select "+getListOfColumns(clazz)+" from "+getTableName()+" where "+getIdName()+"=?";
         if (SaxHandler.enableLogging())
         {
             System.out.println("ORM : "+query);

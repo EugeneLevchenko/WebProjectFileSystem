@@ -18,7 +18,6 @@ public class SaxHandler extends DefaultHandler {
     private Logging log = null;
     private StringBuilder stringBuilder = null;
 
-
     public List<Logging> getLogList() {
         return logList;
     }

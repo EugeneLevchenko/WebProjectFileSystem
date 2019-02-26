@@ -48,40 +48,29 @@ public abstract class DAOBase<E,T> implements IDAOBase<E,T> {
     }
 
     public List<E> getAllById(T paramValue) throws SQLException, IllegalAccessException, InstantiationException, InvocationTargetException {
-
-        PreparedStatement preparedStatement = getConnection().prepareStatement(map.get(classz).getSelectQueryGetAllById(classz));
-        preparedStatement.setInt(1, Integer.parseInt((String.valueOf(paramValue))));
+        String selectQueryGetAllById=map.get(classz).getSelectQueryGetAllById(classz);
+        PreparedStatement preparedStatement = getConnection().prepareStatement(selectQueryGetAllById);
+        fillPreparedStatement(paramValue,preparedStatement);
         ResultSet res = preparedStatement.executeQuery();
+        return getListOfEntities(res);
+    }
 
-        List<E> list=new ArrayList<>();
-        DAODescriptionEntity daoDescriptionEntity=map.get(classz);
-        Constructor constructor=daoDescriptionEntity.getConstructor();
-        DAODescriptionColumn[] descriptionOfColumn = daoDescriptionEntity.getDescrOfColumn();
-
-        while (res.next())
-        {
-            E entity=initObj(res,constructor,descriptionOfColumn);
-            list.add(entity);
+    private void fillPreparedStatement( T paramValue,PreparedStatement preparedStatement) throws SQLException {
+        EDataType dataType=map.get(classz).getTypeOfId();
+        switch (dataType) {
+            case INTEGER:
+                preparedStatement.setInt(1, Integer.parseInt((String.valueOf(paramValue))));
+                break;
+            case STRING:
+                preparedStatement.setString(1, (String.valueOf(paramValue)));
+                break;
         }
-        return list;
-
     }
 
     public List<E> getAll() throws SQLException, IllegalAccessException, InvocationTargetException, InstantiationException {
         Statement st=getConnection().createStatement();
         ResultSet res=st.executeQuery(map.get(classz).getSelectQueryGetAll(classz));
-
-        List<E> list=new ArrayList<>();
-        DAODescriptionEntity daoDescriptionEntity=map.get(classz);
-        Constructor constructor=daoDescriptionEntity.getConstructor();
-        DAODescriptionColumn[] descriptionOfColumn = daoDescriptionEntity.getDescrOfColumn();
-
-        while (res.next())
-        {
-            E entity=initObj(res,constructor,descriptionOfColumn);
-            list.add(entity);
-        }
-        return list;
+        return  getListOfEntities(res);
     }
 
     private E initObj(ResultSet res,Constructor constructorByDefault, DAODescriptionColumn[] descriptionOfColumn) throws IllegalAccessException, InvocationTargetException, InstantiationException, SQLException
@@ -102,5 +91,19 @@ public abstract class DAOBase<E,T> implements IDAOBase<E,T> {
             }
         }
         return (E) obj;
+    }
+
+    private List<E> getListOfEntities(ResultSet res) throws SQLException, IllegalAccessException, InstantiationException, InvocationTargetException {
+        List<E> list=new ArrayList<>();
+        DAODescriptionEntity daoDescriptionEntity=map.get(classz);
+        Constructor constructor=daoDescriptionEntity.getConstructor();
+        DAODescriptionColumn[] descriptionOfColumn = daoDescriptionEntity.getDescrOfColumn();
+
+        while (res.next())
+        {
+            E entity=initObj(res,constructor,descriptionOfColumn);
+            list.add(entity);
+        }
+        return list;
     }
 }
