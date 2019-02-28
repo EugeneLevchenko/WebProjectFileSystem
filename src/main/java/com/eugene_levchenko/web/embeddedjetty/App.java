@@ -14,6 +14,5 @@ public class App {
         handler.addServlet(ServletLocalStatistic.class,"/lsf");
         handler.addServlet(ServletWordInFileStatistic.class,"/wsf");
         server.start();
-
     }
 }

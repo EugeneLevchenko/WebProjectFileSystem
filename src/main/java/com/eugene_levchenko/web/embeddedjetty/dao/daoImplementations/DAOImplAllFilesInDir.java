@@ -2,6 +2,8 @@ package com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations;
 
 import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOAllFilesInDirEntity;
 import com.eugene_levchenko.web.embeddedjetty.entities.EntityAllFilesInDir;
+import com.eugene_levchenko.web.embeddedjetty.entities.EntityGlobalStat;
+import org.hibernate.SessionFactory;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +13,11 @@ import java.util.List;
 
 //with hiber
 
-public class DAOImplAllFilesInDir extends DAOBase implements IDAOAllFilesInDirEntity {
+public class DAOImplAllFilesInDir extends DAOBase<EntityAllFilesInDir, Integer> implements IDAOAllFilesInDirEntity {
+    public DAOImplAllFilesInDir(SessionFactory factory, Class classz) {
+        super(factory, classz);
+    }
+
     @Override
     public List<EntityAllFilesInDir> getAllById(Integer paramValue) throws SQLException {
         return null;

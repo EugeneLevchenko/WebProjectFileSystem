@@ -4,6 +4,8 @@ import com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations.DAOImplLoca
 import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOLocalStatOfFileEntity;
 import com.eugene_levchenko.web.embeddedjetty.entities.EntityLocalStatOfFile;
 import com.eugene_levchenko.web.embeddedjetty.enums.ENamesOfPages;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,8 +14,8 @@ import java.sql.*;
 import java.util.List;
 
 public  class ServletLocalStatistic extends ServletBaseWithTableWithParam {
-
-    private IDAOLocalStatOfFileEntity dao=new DAOImplLocalStat();
+    SessionFactory factory = new Configuration().configure().buildSessionFactory();
+    private IDAOLocalStatOfFileEntity dao=new DAOImplLocalStat(factory,EntityLocalStatOfFile.class);
     private String nameOfParam="id";
     private int id =0;
 

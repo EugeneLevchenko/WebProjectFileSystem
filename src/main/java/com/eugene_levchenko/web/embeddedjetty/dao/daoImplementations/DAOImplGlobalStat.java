@@ -2,33 +2,80 @@ package com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations;
 
 import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOGlobalStatEntity;
 import com.eugene_levchenko.web.embeddedjetty.entities.EntityGlobalStat;
+import com.sun.istack.internal.NotNull;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
-public class DAOImplGlobalStat extends DAOBase implements IDAOGlobalStatEntity {
+public class DAOImplGlobalStat extends DAOBase<EntityGlobalStat, String> implements IDAOGlobalStatEntity {
+    public DAOImplGlobalStat(SessionFactory factory, Class<EntityGlobalStat> classz) {
+        super(factory, EntityGlobalStat.class);
+    }
 
     @Override
     public List<EntityGlobalStat> getAllById(String paramValue) throws SQLException {
         return null;
     }
 
-    @Override
-    public List<EntityGlobalStat> getAll() throws SQLException {
-        List<EntityGlobalStat> list=new ArrayList<EntityGlobalStat>() ;
-        String query="select * from filestatistic order by 1;";
-        Statement st=getConnection().createStatement();
-        ResultSet res=st.executeQuery(query);
-        list.clear();
-        System.out.println("after clear: "+list);
-        while (res.next())
-        {
-            list.add(new EntityGlobalStat(res.getString(1),res.getInt(2)));
-        }
-        return list;
+    // @Override
+  //  public List<EntityGlobalStat> getAllById(String paramValue) throws SQLException {
+    //    return null;
+  //  }
+
+
+
+    /*
+    private final SessionFactory factory;
+    public DAOImplGlobalStat(@NotNull final SessionFactory factory) {
+        this.factory = factory;
     }
 
+    @Override
+    public void create(@NotNull final EntityGlobalStat entity) {
+        try (final Session session = factory.openSession()) {
+            session.beginTransaction();
+            session.save(entity);
+            session.getTransaction().commit();
+        }
+    }
+
+    @Override
+    public EntityGlobalStat read(@NotNull final String word) {
+        try (final Session session = factory.openSession()) {
+            final EntityGlobalStat result = session.get(EntityGlobalStat.class, word);
+            return result ;
+        }
+    }
+
+    @Override
+    public void update(@NotNull final EntityGlobalStat entity) {
+        entity.setWord("eprst");
+        try (Session session = factory.openSession()) {
+            session.beginTransaction();
+            session.update(entity);
+            session.getTransaction().commit();
+        }
+    }
+
+    @Override
+    public void delete(@NotNull final EntityGlobalStat entity) {
+        try (Session session = factory.openSession()) {
+            session.beginTransaction();
+            session.delete(entity);
+            session.getTransaction().commit();
+        }
+    }
+
+    @Override
+    public List<EntityGlobalStat> getAll() {
+        try (Session session = factory.openSession()) {
+            Query query = session.createQuery("from EntityGlobalStat");
+            List<EntityGlobalStat> list = query.list();
+            return list;
+        }
+    }
+    */
 }

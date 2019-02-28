@@ -2,6 +2,8 @@ package com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations;
 
 import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOLocalStatOfFileEntity;
 import com.eugene_levchenko.web.embeddedjetty.entities.EntityLocalStatOfFile;
+import com.eugene_levchenko.web.embeddedjetty.entities.EntityWordInFileStat;
+import org.hibernate.SessionFactory;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,7 +11,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DAOImplLocalStat extends DAOBase implements IDAOLocalStatOfFileEntity {
+public class DAOImplLocalStat extends DAOBase<EntityLocalStatOfFile, Integer> implements IDAOLocalStatOfFileEntity {
+
+    public DAOImplLocalStat(SessionFactory factory, Class<EntityLocalStatOfFile> classz) {
+        super(factory, classz);
+    }
 
     @Override
     public List<EntityLocalStatOfFile> getAllById(Integer paramValue) {
@@ -32,7 +38,7 @@ public class DAOImplLocalStat extends DAOBase implements IDAOLocalStatOfFileEnti
     }
 
     @Override
-    public List<EntityLocalStatOfFile> getAll() throws SQLException {
+    public List<EntityLocalStatOfFile> getAll() {
         return null;
     }
 

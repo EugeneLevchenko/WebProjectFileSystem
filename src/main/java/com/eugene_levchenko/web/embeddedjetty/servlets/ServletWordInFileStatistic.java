@@ -4,6 +4,8 @@ import com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations.DAOImplWord
 import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOBase;
 import com.eugene_levchenko.web.embeddedjetty.entities.EntityWordInFileStat;
 import com.eugene_levchenko.web.embeddedjetty.enums.ENamesOfPages;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,10 +14,10 @@ import java.sql.*;
 import java.util.List;
 
 public  class ServletWordInFileStatistic extends ServletBaseWithTableWithParam {
-
+    SessionFactory factory = new Configuration().configure().buildSessionFactory();
     private String paramValue="";
     private String nameOfParam="word";
-    private IDAOBase dao=new DAOImplWordInFileStat();
+    private IDAOBase dao=new DAOImplWordInFileStat(factory,EntityWordInFileStat.class);
 
     public String createTable() throws SQLException {
 

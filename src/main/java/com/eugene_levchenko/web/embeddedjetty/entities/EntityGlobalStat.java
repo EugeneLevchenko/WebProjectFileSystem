@@ -1,14 +1,16 @@
 package com.eugene_levchenko.web.embeddedjetty.entities;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "filestatistic")
 public class EntityGlobalStat {
-
-   private String word;
-   private int value;
-
-    public EntityGlobalStat(String word, int value) {
-        this.word = word;
-        this.value = value;
-    }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="word")
+    private String word;
+    @Column(name="value")
+    private int value;
 
     @Override
     public String toString() {
@@ -24,5 +26,13 @@ public class EntityGlobalStat {
 
     public int getValue() {
         return value;
+    }
+
+    public void setWord(String word) {
+        this.word = word;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 }
