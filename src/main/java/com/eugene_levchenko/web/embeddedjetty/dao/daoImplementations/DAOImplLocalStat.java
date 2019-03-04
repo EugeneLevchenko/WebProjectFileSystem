@@ -2,9 +2,14 @@ package com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations;
 
 import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOLocalStatOfFileEntity;
 import com.eugene_levchenko.web.embeddedjetty.entities.EntityLocalStatOfFile;
-import com.eugene_levchenko.web.embeddedjetty.entities.EntityWordInFileStat;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 
+import java.lang.invoke.ConstantCallSite;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,23 +23,17 @@ public class DAOImplLocalStat extends DAOBase<EntityLocalStatOfFile, Integer> im
     }
 
     @Override
-    public List<EntityLocalStatOfFile> getAllById(Integer paramValue) {
-        List<EntityLocalStatOfFile> list = new ArrayList<EntityLocalStatOfFile>();
+    public List<EntityLocalStatOfFile> getAllById(Integer paramValue) throws IllegalAccessException, InvocationTargetException, InstantiationException {
 
-        try {
-            String selectSQL = "SELECT word,value FROM webprojectfilesystemdb.localstatistic where file_id=?";
-            PreparedStatement preparedStatement = getConnection().prepareStatement(selectSQL);
-            preparedStatement.setInt(1, Integer.parseInt((String.valueOf(paramValue))));
-            ResultSet rs = preparedStatement.executeQuery();
+        try (Session session = factory.openSession()) {
 
-            while (rs.next())
-            {
-                list.add(new EntityLocalStatOfFile(rs.getString(1),rs.getInt(2)));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+            Criteria criteria = session.createCriteria(classz).add(Restrictions.eq("fileId", paramValue));
+            List<EntityLocalStatOfFile> list = criteria.list();
+            System.out.println(list);
+            return list;
+
         }
-        return list;
+
     }
 
     @Override
@@ -61,6 +60,4 @@ public class DAOImplLocalStat extends DAOBase<EntityLocalStatOfFile, Integer> im
 
         return fileName;
     }
-
-
 }

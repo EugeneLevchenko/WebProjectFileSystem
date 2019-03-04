@@ -10,6 +10,7 @@ import org.hibernate.cfg.Configuration;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public  class ServletWordInFileStatistic extends ServletBaseWithTableWithParam {
     private String nameOfParam="word";
     private IDAOBase dao=new DAOImplWordInFileStat(factory,EntityWordInFileStat.class);
 
-    public String createTable() throws SQLException {
+    public String createTable() throws SQLException, IllegalAccessException, InstantiationException, InvocationTargetException {
 
         String table="";
         List<EntityWordInFileStat> list=dao.getAllById(paramValue);
@@ -37,7 +38,7 @@ public  class ServletWordInFileStatistic extends ServletBaseWithTableWithParam {
     }
 
 @Override
-    public void renderTable(HttpServletResponse resp, HttpServletRequest req) throws IOException, SQLException {
+    public void renderTable(HttpServletResponse resp, HttpServletRequest req) throws IOException, SQLException, IllegalAccessException, InvocationTargetException, InstantiationException {
         paramValue= (String) getParam(req,nameOfParam);
         resp.getWriter().println(
                 " <table border=\"1\">\n" +

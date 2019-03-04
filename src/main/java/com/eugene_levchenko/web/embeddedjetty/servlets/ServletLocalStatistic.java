@@ -10,6 +10,7 @@ import org.hibernate.cfg.Configuration;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public  class ServletLocalStatistic extends ServletBaseWithTableWithParam {
     private String nameOfParam="id";
     private int id =0;
 
-    public String createTable() throws SQLException {
+    public String createTable() throws SQLException, IllegalAccessException, InstantiationException, InvocationTargetException {
         List<EntityLocalStatOfFile> list=dao.getAllById(id);
         String table="";
 
@@ -40,7 +41,7 @@ public  class ServletLocalStatistic extends ServletBaseWithTableWithParam {
     }
 
 @Override
-    public void renderTable(HttpServletResponse resp,HttpServletRequest req) throws IOException {
+    public void renderTable(HttpServletResponse resp,HttpServletRequest req) throws IOException, IllegalAccessException, InvocationTargetException, InstantiationException {
         try {
           id = Integer.parseInt( getParam(req,nameOfParam));
             System.out.println(id);
