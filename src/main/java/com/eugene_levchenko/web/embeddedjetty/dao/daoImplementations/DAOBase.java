@@ -1,6 +1,7 @@
 package com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations;
 
 import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOBase;
+import com.eugene_levchenko.web.embeddedjetty.entities.EntityAllFilesInDir;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -27,29 +28,19 @@ public abstract class DAOBase <E,K> implements IDAOBase<E,K> {
             CriteriaQuery<E> criteriaQuery = session.getCriteriaBuilder().createQuery(classz);
             criteriaQuery.from(classz);
             List<E> list = session.createQuery(criteriaQuery).getResultList();
-            ////////////////
-
             return list;
         }
     }
 
-
-    public List<E> getById(K param)
-    {
-
-
-
-
-        return null;
+@Override
+    public E getById(K key) {
+       try (Session session = factory.openSession()) {
+           E result = session.find(classz,key);
+            return result;
     }
-
+    }
 
     public final static String URL = "jdbc:mysql://localhost:3306/webprojectfilesystemdb";
     public final static String USERNAME = "root";
     public final static String PASSWORD = "root";
-
-    public Connection getConnection() throws SQLException {
-        Connection connection = DriverManager.getConnection(URL ,USERNAME,PASSWORD);
-        return connection;
-    }
 }

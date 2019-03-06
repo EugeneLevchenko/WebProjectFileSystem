@@ -1,27 +1,26 @@
 package com.eugene_levchenko.web.embeddedjetty.servlets;
 
+import com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations.DAOImplAllFilesInDir;
 import com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations.DAOImplLocalStat;
+import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOAllFilesInDirEntity;
 import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOLocalStatOfFileEntity;
+import com.eugene_levchenko.web.embeddedjetty.entities.EntityAllFilesInDir;
 import com.eugene_levchenko.web.embeddedjetty.entities.EntityLocalStatOfFile;
 import com.eugene_levchenko.web.embeddedjetty.enums.ENamesOfPages;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.sql.*;
 import java.util.List;
 
 public  class ServletLocalStatistic extends ServletBaseWithTableWithParam {
-    SessionFactory factory = new Configuration().configure().buildSessionFactory();
-    private IDAOLocalStatOfFileEntity dao=new DAOImplLocalStat(factory,EntityLocalStatOfFile.class);
+    private IDAOLocalStatOfFileEntity daoLocalStat=new DAOImplLocalStat(factory,EntityLocalStatOfFile.class);
+    private IDAOAllFilesInDirEntity daoFiles=new DAOImplAllFilesInDir(factory, EntityAllFilesInDir.class);
     private String nameOfParam="id";
-    private int id =0;
 
-    public String createTable() throws SQLException, IllegalAccessException, InstantiationException, InvocationTargetException {
-        List<EntityLocalStatOfFile> list=dao.getAllById(id);
+    public String createTable(Integer fileId)  {
+        List<EntityLocalStatOfFile> list=daoLocalStat.getLocalStatByFileId(fileId);
         String table="";
 
         for (EntityLocalStatOfFile i: list)
@@ -43,19 +42,19 @@ public  class ServletLocalStatistic extends ServletBaseWithTableWithParam {
 @Override
     public void renderTable(HttpServletResponse resp,HttpServletRequest req) throws IOException, IllegalAccessException, InvocationTargetException, InstantiationException {
         try {
-          id = Integer.parseInt( getParam(req,nameOfParam));
-            System.out.println(id);
+          Integer fileId = Integer.parseInt( getParam(req,nameOfParam));
+            System.out.println(fileId);
             resp.getWriter().println(
                     " <table border=\"1\">\n" +
                             "   <caption>Статистика слов в файле: "
-                            +dao.getFileNameById(id)+"</caption>\n" +
+                            +daoFiles.getById(fileId).getNameOfFile()+"</caption>\n" +
                             "   <tr>\n" +
                             "    <th>Слово</th>\n" +
                             "    <th>Значение</th>\n" +
                             "   </tr>\n" +
-                            createTable()+
+                            createTable(fileId)+
                             "  </table>");
-        } catch (SQLException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

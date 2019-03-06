@@ -1,34 +1,29 @@
 package com.eugene_levchenko.web.embeddedjetty.servlets;
 
-import com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations.DAOImplWordInFileStat;
-import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOBase;
-import com.eugene_levchenko.web.embeddedjetty.entities.EntityWordInFileStat;
+import com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations.DAOImplLocalStat;
+import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOLocalStatOfFileEntity;
+import com.eugene_levchenko.web.embeddedjetty.entities.EntityLocalStatOfFile;
 import com.eugene_levchenko.web.embeddedjetty.enums.ENamesOfPages;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.sql.*;
+import java.sql.SQLException;
 import java.util.List;
 
 public  class ServletWordInFileStatistic extends ServletBaseWithTableWithParam {
-    SessionFactory factory = new Configuration().configure().buildSessionFactory();
-    private String paramValue="";
     private String nameOfParam="word";
-    private IDAOBase dao=new DAOImplWordInFileStat(factory,EntityWordInFileStat.class);
+    private IDAOLocalStatOfFileEntity dao=new DAOImplLocalStat(factory, EntityLocalStatOfFile.class);
 
-    public String createTable() throws SQLException, IllegalAccessException, InstantiationException, InvocationTargetException {
+    public String createTable(String word)  {
 
         String table="";
-        List<EntityWordInFileStat> list=dao.getAllById(paramValue);
+        List<EntityLocalStatOfFile> list=dao.getLocalStatisticsByWord(word);
 
-        for (EntityWordInFileStat i: list) {
-            table+="<tr> <td>"+i.getNameOfFile()+"</td> <td>"+i.getValue()+"</td>";
+        for (EntityLocalStatOfFile i: list) {
+            table+="<tr> <td>"+i.getLocalFile().getNameOfFile()+"</td> <td>"+i.getValue()+"</td>";
         }
-
         return table;
     }
 
@@ -39,15 +34,15 @@ public  class ServletWordInFileStatistic extends ServletBaseWithTableWithParam {
 
 @Override
     public void renderTable(HttpServletResponse resp, HttpServletRequest req) throws IOException, SQLException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        paramValue= (String) getParam(req,nameOfParam);
+        String word=getParam(req,nameOfParam);
         resp.getWriter().println(
                 " <table border=\"1\">\n" +
-                        "   <caption>Глобальная статистика слова: <h1 style=\"margin: 0;\"><b>"+paramValue+"</b></h1> в директории</caption>\n" +
+                        "   <caption>Глобальная статистика слова: <h1 style=\"margin: 0;\"><b>"+word+"</b></h1> в директории</caption>\n" +
                         "   <tr>\n" +
                         "    <th>Имя файла</th>\n" +
                         "    <th>Значение</th>\n" +
                         "   </tr>\n" +
-                        createTable()+
+                        createTable(word)+
                         "  </table>");
     }
 

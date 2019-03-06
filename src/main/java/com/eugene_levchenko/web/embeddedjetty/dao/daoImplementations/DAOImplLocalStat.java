@@ -1,6 +1,7 @@
 package com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations;
 
 import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOLocalStatOfFileEntity;
+import com.eugene_levchenko.web.embeddedjetty.entities.EntityAllFilesInDir;
 import com.eugene_levchenko.web.embeddedjetty.entities.EntityLocalStatOfFile;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -23,17 +24,26 @@ public class DAOImplLocalStat extends DAOBase<EntityLocalStatOfFile, Integer> im
     }
 
     @Override
-    public List<EntityLocalStatOfFile> getAllById(Integer paramValue) throws IllegalAccessException, InvocationTargetException, InstantiationException {
+    public List<EntityLocalStatOfFile> getLocalStatByFileId(Integer fileId) {
 
         try (Session session = factory.openSession()) {
-
-            Criteria criteria = session.createCriteria(classz).add(Restrictions.eq("fileId", paramValue));
+            Criteria criteria = session.createCriteria(classz).add(Restrictions.eq("fileId", fileId));
             List<EntityLocalStatOfFile> list = criteria.list();
             System.out.println(list);
             return list;
 
         }
+    }
 
+    @Override
+    public List<EntityLocalStatOfFile> getLocalStatisticsByWord(String word) {
+        try (Session session = factory.openSession()) {
+            Criteria criteria = session.createCriteria(classz).add(Restrictions.eq("word", word));
+            List<EntityLocalStatOfFile> list = criteria.list();
+            System.out.println(list);
+            return list;
+
+        }
     }
 
     @Override
@@ -41,23 +51,4 @@ public class DAOImplLocalStat extends DAOBase<EntityLocalStatOfFile, Integer> im
         return null;
     }
 
-    @Override
-    public String getFileNameById(int id) throws SQLException {
-
-        String fileName="";
-        String queryGetFileName="SELECT fullfilename FROM webprojectfilesystemdb.fullnametable where id=?";
-
-        PreparedStatement preparedStatement = getConnection().prepareStatement(queryGetFileName);
-        preparedStatement.setInt(1, id);
-        ResultSet rs = preparedStatement.executeQuery();
-
-        while (rs.next())
-        {
-            fileName=rs.getString(1);
-        }
-
-        System.out.println(fileName);
-
-        return fileName;
-    }
 }

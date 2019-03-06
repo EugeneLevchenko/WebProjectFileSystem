@@ -6,8 +6,7 @@ import java.util.List;
 
 public interface IDAOBase<E,K>  {
 
-    List<E> getAllById(K paramValue) throws SQLException, IllegalAccessException, InvocationTargetException, InstantiationException;
 
-
+   E getById(K key);
     List<E> getAll() throws SQLException;
 }

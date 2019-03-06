@@ -4,20 +4,17 @@ import com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations.DAOImplAllF
 import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOAllFilesInDirEntity;
 import com.eugene_levchenko.web.embeddedjetty.entities.EntityAllFilesInDir;
 import com.eugene_levchenko.web.embeddedjetty.enums.ENamesOfPages;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.List;
 
 public class ServletAllFilesInDir extends ServletBaseWithTable{
-    SessionFactory factory = new Configuration().configure().buildSessionFactory();
+
     IDAOAllFilesInDirEntity dao=new DAOImplAllFilesInDir(factory,EntityAllFilesInDir.class);
 
-    public String createTable() throws SQLException, IllegalAccessException, InstantiationException, InvocationTargetException {
+    public String createTable() throws SQLException {
         String table = "";
         List<EntityAllFilesInDir> list = dao.getAll();
 
@@ -30,7 +27,6 @@ public class ServletAllFilesInDir extends ServletBaseWithTable{
         }
         return table;
     }
-
 
     @Override
     protected void renderTable(HttpServletResponse resp) throws IOException, SQLException {
@@ -45,12 +41,6 @@ public class ServletAllFilesInDir extends ServletBaseWithTable{
                             createTable()+
                             "  </table>");
         } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
     }

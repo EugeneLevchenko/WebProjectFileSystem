@@ -1,13 +1,23 @@
 package com.eugene_levchenko.web.embeddedjetty.entities;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "fullnametable")
 public class EntityAllFilesInDir {
 
-   private int id;
-   private String nameOfFile;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
+    private int id;
+    @Column(name="fullfilename")
+    private String nameOfFile;
 
-    public EntityAllFilesInDir(int id, String nameOfFile) {
-        this.id = id;
-        this.nameOfFile = nameOfFile;
+    //@OneToMany()
+   // List<EntityLocalStatOfFile> list=new ArrayList<>();
+
+    public EntityAllFilesInDir()
+    {
     }
 
     @Override
@@ -18,11 +28,20 @@ public class EntityAllFilesInDir {
                 '}';
     }
 
+
     public int getId() {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getNameOfFile() {
         return nameOfFile;
+    }
+
+    public void setNameOfFile(String nameOfFile) {
+        this.nameOfFile = nameOfFile;
     }
 }

@@ -4,28 +4,32 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@IdClass(EntityComplexIdLocalStat.class)
+@IdClass(ComplexIdLocalStat.class)
 @Table(name = "localstatistic")
 public class EntityLocalStatOfFile implements Serializable {
 
-    public void setWord(String word) {
+    public EntityLocalStatOfFile(String word, int value) {
         this.word = word;
-    }
-
-    public void setValue(int value) {
         this.value = value;
     }
+
+    public EntityLocalStatOfFile() {}
+
+     @ManyToOne
+     @JoinColumn(name = "file_id", referencedColumnName = "id")
+    private EntityAllFilesInDir localFile;
+
+    public EntityAllFilesInDir getLocalFile() {
+        return localFile;
+    }
+
+
     @Id
-    @Column(name="file_id")
-    private    Integer fileId;
+    @Column(name="file_id", insertable = false,updatable = false)
+    private Integer fileId;
 
-    public Integer getFileId() {
-        return fileId;
-    }
 
-    public void setFileId(Integer fileId) {
-        this.fileId = fileId;
-    }
+
     @Id
     @Column(name="word")
     private String word;
@@ -33,22 +37,14 @@ public class EntityLocalStatOfFile implements Serializable {
     @Column(name="value")
     private int value;
 
-    public EntityLocalStatOfFile(String word, int value) {
-        this.word = word;
-        this.value = value;
+
+
+    public Integer getFileId() {
+        return fileId;
     }
 
-    public EntityLocalStatOfFile() {
-
-    }
-
-    @Override
-    public String toString() {
-        return "EntityLocalStatOfFile{" +
-                "fileid='" + fileId + '\'' +
-                "word='" + word + '\'' +
-                ", value=" + value +
-                '}';
+    public void setFileId(Integer fileId) {
+        this.fileId = fileId;
     }
 
     public String getWord() {
@@ -59,5 +55,20 @@ public class EntityLocalStatOfFile implements Serializable {
         return value;
     }
 
+    public void setWord(String word) {
+        this.word = word;
+    }
 
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return "EntityLocalStatOfFile{" +
+                "fileid='" + fileId + '\'' +
+                "word='" + word + '\'' +
+                ", value=" + value +
+                '}';
+    }
 }

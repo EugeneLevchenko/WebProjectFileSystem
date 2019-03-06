@@ -15,7 +15,6 @@ import java.util.List;
 
 public  class ServletGlobalStatistic extends ServletBaseWithTable {
     public String createTable() throws SQLException {
-        SessionFactory factory = new Configuration().configure().buildSessionFactory();
         IDAOGlobalStatEntity dao= new DAOImplGlobalStat(factory,EntityGlobalStat.class);
         String table="";
         List<EntityGlobalStat> list=dao.getAll();
