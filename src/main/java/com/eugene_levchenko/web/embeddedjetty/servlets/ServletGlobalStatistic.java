@@ -7,15 +7,26 @@ import com.eugene_levchenko.web.embeddedjetty.enums.ENamesOfPages;
 import com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations.DAOImplGlobalStat;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-
+@Component
 public  class ServletGlobalStatistic extends ServletBaseWithTable {
+    public ServletGlobalStatistic() {
+
+    }
+
+    @Autowired
+    IDAOGlobalStatEntity dao;
+    // IDAOGlobalStatEntity dao= new DAOImplGlobalStat(factory,EntityGlobalStat.class);
     public String createTable() throws SQLException {
-        IDAOGlobalStatEntity dao= new DAOImplGlobalStat(factory,EntityGlobalStat.class);
+
+
+
         String table="";
         List<EntityGlobalStat> list=dao.getAll();
         for (EntityGlobalStat i: list)

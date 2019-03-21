@@ -4,6 +4,8 @@ import com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations.DAOImplLoca
 import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOLocalStatOfFileEntity;
 import com.eugene_levchenko.web.embeddedjetty.entities.EntityLocalStatOfFile;
 import com.eugene_levchenko.web.embeddedjetty.enums.ENamesOfPages;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,9 +14,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.List;
 
+@Component
 public  class ServletWordInFileStatistic extends ServletBaseWithTableWithParam {
-    private String nameOfParam="word";
-    private IDAOLocalStatOfFileEntity dao=new DAOImplLocalStat(factory, EntityLocalStatOfFile.class);
+    private static String nameOfParam="word";
+
+    @Autowired
+    private IDAOLocalStatOfFileEntity dao;
+   // private IDAOLocalStatOfFileEntity dao=new DAOImplLocalStat(factory, EntityLocalStatOfFile.class);
 
     public String createTable(String word)  {
 

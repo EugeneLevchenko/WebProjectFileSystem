@@ -4,7 +4,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@IdClass(ComplexIdLocalStat.class)
 @Table(name = "localstatistic")
 public class EntityLocalStatOfFile implements Serializable {
 

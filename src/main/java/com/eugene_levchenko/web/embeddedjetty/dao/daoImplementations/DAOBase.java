@@ -1,25 +1,22 @@
 package com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations;
 
 import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOBase;
-import com.eugene_levchenko.web.embeddedjetty.entities.EntityAllFilesInDir;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import javax.persistence.criteria.CriteriaQuery;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.List;
 
+@Component
 public abstract class DAOBase <E,K> implements IDAOBase<E,K> {
-    protected final SessionFactory factory;
+    @Autowired
+    protected  SessionFactory factory;
+
     protected Class<E> classz;
 
-    public DAOBase(SessionFactory factory, Class<E> classz) {
-        this.factory = factory;
+    public DAOBase( Class<E> classz) {
+
         this.classz = classz;
     }
 
@@ -40,7 +37,4 @@ public abstract class DAOBase <E,K> implements IDAOBase<E,K> {
     }
     }
 
-    public final static String URL = "jdbc:mysql://localhost:3306/webprojectfilesystemdb";
-    public final static String USERNAME = "root";
-    public final static String PASSWORD = "root";
 }

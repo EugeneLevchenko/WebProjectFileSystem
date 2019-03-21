@@ -7,6 +7,8 @@ import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOLocalStatOfF
 import com.eugene_levchenko.web.embeddedjetty.entities.EntityAllFilesInDir;
 import com.eugene_levchenko.web.embeddedjetty.entities.EntityLocalStatOfFile;
 import com.eugene_levchenko.web.embeddedjetty.enums.ENamesOfPages;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,10 +16,14 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+@Component
 public  class ServletLocalStatistic extends ServletBaseWithTableWithParam {
-    private IDAOLocalStatOfFileEntity daoLocalStat=new DAOImplLocalStat(factory,EntityLocalStatOfFile.class);
-    private IDAOAllFilesInDirEntity daoFiles=new DAOImplAllFilesInDir(factory, EntityAllFilesInDir.class);
-    private String nameOfParam="id";
+    @Autowired
+    private IDAOLocalStatOfFileEntity daoLocalStat;
+    @Autowired
+   private IDAOAllFilesInDirEntity daoFiles;
+
+    private static String nameOfParam="id";
 
     public String createTable(Integer fileId)  {
         List<EntityLocalStatOfFile> list=daoLocalStat.getLocalStatByFileId(fileId);

@@ -1,8 +1,6 @@
 package com.eugene_levchenko.web.embeddedjetty.servlets;
 
 import com.eugene_levchenko.web.embeddedjetty.enums.ENamesOfPages;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +9,6 @@ import java.io.IOException;
 
 public abstract class ServletBase extends HttpServlet {
 
-    protected SessionFactory factory = new Configuration().configure().buildSessionFactory();
 
     protected static String[][] ARRAY_OF_URL_AND_DESCRIPTION = {
             {"Главная","main"},

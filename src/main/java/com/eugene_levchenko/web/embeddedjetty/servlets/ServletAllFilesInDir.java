@@ -4,15 +4,19 @@ import com.eugene_levchenko.web.embeddedjetty.dao.daoImplementations.DAOImplAllF
 import com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces.IDAOAllFilesInDirEntity;
 import com.eugene_levchenko.web.embeddedjetty.entities.EntityAllFilesInDir;
 import com.eugene_levchenko.web.embeddedjetty.enums.ENamesOfPages;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-
+@Component
 public class ServletAllFilesInDir extends ServletBaseWithTable{
-
-    IDAOAllFilesInDirEntity dao=new DAOImplAllFilesInDir(factory,EntityAllFilesInDir.class);
+    @Autowired
+    IDAOAllFilesInDirEntity dao;
+   // IDAOAllFilesInDirEntity dao=new DAOImplAllFilesInDir(factory,EntityAllFilesInDir.class);
 
     public String createTable() throws SQLException {
         String table = "";

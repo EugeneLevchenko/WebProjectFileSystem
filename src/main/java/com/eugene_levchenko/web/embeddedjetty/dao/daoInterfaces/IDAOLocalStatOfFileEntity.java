@@ -1,6 +1,7 @@
 package com.eugene_levchenko.web.embeddedjetty.dao.daoInterfaces;
 
 import com.eugene_levchenko.web.embeddedjetty.entities.EntityLocalStatOfFile;
+import org.springframework.stereotype.Component;
 
 import java.sql.SQLException;
 import java.util.List;

@@ -7,6 +7,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Component;
 
 import java.lang.invoke.ConstantCallSite;
 import java.lang.reflect.Constructor;
@@ -16,11 +17,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
+@Component
 public class DAOImplLocalStat extends DAOBase<EntityLocalStatOfFile, Integer> implements IDAOLocalStatOfFileEntity {
 
-    public DAOImplLocalStat(SessionFactory factory, Class<EntityLocalStatOfFile> classz) {
-        super(factory, classz);
+    public DAOImplLocalStat() {
+        super(EntityLocalStatOfFile.class);
     }
 
     @Override
